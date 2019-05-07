@@ -1,2 +1,2 @@
-# FotoApp
-Mobilutveckling app för att dela foton 
+# PhotoShare
+Event based photo sharing platform
