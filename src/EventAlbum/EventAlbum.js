@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "../index.css";
 import "./EventAlbum.css";
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -9,7 +10,7 @@ class EventAlbum extends Component {
       <div className="EventAlbum">
         <p>EventAlbum</p>
 
-      
+
       </div>
     );
   }
