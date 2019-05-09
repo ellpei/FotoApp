@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "../index.css";
 import "./AttendEvent.css";
 import 'bootstrap/dist/css/bootstrap.css';
 
