@@ -4,7 +4,8 @@ Event based photo sharing platform
 
 ### To run project
 npm run build
-serve -s build (creates an static server which runs on localhost:5000 and on the network
+
+serve -s build (This creates an static server which runs on localhost:5000 and on the network
   (this we can use to see the app on mobile, not having to deploy it to firebase))
 
 ## Available Scripts
