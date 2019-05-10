@@ -1,7 +1,3 @@
-# PhotoShare
-Event based photo sharing platform
-
-
 ### To run project
 npm run build
 serve -s build (creates an static server which runs on localhost:5000 and on the network
