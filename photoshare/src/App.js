@@ -8,11 +8,9 @@ import CreateEvent from "./CreateEvent/CreateEvent";
 import EventAlbum from "./EventAlbum/EventAlbum";
 import Home from "./Home/Home";
 import InsideEvent from "./InsideEvent/InsideEvent";
+import Camera from "./Camera/Camera";
 import PastEvents from "./PastEvents/PastEvents";
 import SignUp from "./SignUp/SignUp";
-
-
-
 
 class App extends Component {
   constructor(props) {
@@ -36,9 +34,7 @@ class App extends Component {
           <Route path="/Home" component={Home} />
           <Route path="/InsideEvent" component={InsideEvent} />
           <Route path="/PastEvents" component={PastEvents} />
-
-
-
+          <Route path="/Camera" component={Camera} />
         </header>
       </div>
     );

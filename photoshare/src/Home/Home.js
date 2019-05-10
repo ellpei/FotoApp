@@ -9,8 +9,9 @@ class Home extends Component {
     return (
       <div className="Home">
         <p>Home</p>
-
-
+        <Link to="/InsideEvent">
+          <button class="btn-rounded">Go to "Inside Event"</button>
+        </Link>
       </div>
     );
   }
