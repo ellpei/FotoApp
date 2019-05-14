@@ -63,7 +63,7 @@ class Camera extends Component {
 
     return (
       <div className="Camera">
-        <p>InsideEvent</p>
+        <p>Camera</p>
         <div className="camera-container">
 
         <div>
@@ -89,7 +89,7 @@ class Camera extends Component {
             <button id="uploadBtn" onClick={this.uploadPhoto}>Upload</button>
             <button id="switch" onClick={this.facingToggle}>Switch camera</button>
           </div>
-
+          
         </div>
       </div>
     );

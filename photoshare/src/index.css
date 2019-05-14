@@ -40,6 +40,15 @@ p {
   font-family: 'Montserrat', sans-serif;
 }
 
+a {
+  color: #FFFFFF;
+}
+
+a:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
 .btn {
   color: #FFFFFF;
   font-weight: 900;
