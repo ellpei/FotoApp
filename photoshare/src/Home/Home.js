@@ -10,14 +10,22 @@ class Home extends Component {
     return (
       <div className="Home">
         <NavBar title="Home"></NavBar>
-        <Link to="/InsideEvent">
-          <button class="btn-rounded">Go to "Inside Event"</button>
-        </Link>
         <br/>
         <br/>
-        <Link to="/CreateEvent">
-          <button class="btn-rounded">Create Event</button>
-        </Link>
+        <div class="button-container">
+          <Link to="/CreateEvent">
+            <button class="btn-rounded">Create Event</button>
+          </Link>
+          <Link to="/AttendEvent">
+            <button class="btn-rounded">Attend Event</button>
+          </Link>
+          <Link to="/PastEvents">
+            <button class="btn-rounded">Past Events</button>
+          </Link>
+          <Link to="/InsideEvent">
+            <button class="btn-rounded">Go to "Inside Event"</button>
+          </Link>
+        </div>
       </div>
     );
   }
