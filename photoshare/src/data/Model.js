@@ -8,7 +8,7 @@ class Model extends ObservableModel {
     super();
     this._dummy = 4;
     this.state = {
-      userID: "",
+      userID: "-LevyD6ImWkKD6yALlcs",
       currentEventID: "",
     }
   }
@@ -21,8 +21,16 @@ class Model extends ObservableModel {
     return this.state.userID;
   }
 
+  setUserID(uID) {
+    this.state.userID = uID;
+  }
+
   getCurrentEvent() {
-    return this.state.currentEventID; 
+    return this.state.currentEventID;
+  }
+
+  setCurrentEvent(eventID) {
+    this.state.setCurrentEvent = eventID;
   }
 
 }

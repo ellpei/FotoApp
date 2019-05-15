@@ -11,6 +11,7 @@ import InsideEvent from "./InsideEvent/InsideEvent";
 import Camera from "./Camera/Camera";
 import PastEvents from "./PastEvents/PastEvents";
 import SignUp from "./SignUp/SignUp";
+import firebase from "./firebase.js";
 
 class App extends Component {
   constructor(props) {

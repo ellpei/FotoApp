@@ -4,6 +4,8 @@ import "../index.css";
 import "./CreateEvent.css";
 import NavBar from "../NavBar/NavBar.js";
 import 'bootstrap/dist/css/bootstrap.css';
+import firebase from '../firebase.js';
+import { createEvent } from "../data/GlobalFunctions.js";
 
 class CreateEvent extends Component {
 
@@ -31,9 +33,19 @@ class CreateEvent extends Component {
 
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.name + '\nradius: ' + this.state.radius + '\nduration: ' + this.state.duration + '\npassword: ' + this.state.password + '\ndescription: ' + this.state.description);
-
+    //store to database
+    const item = {
+      name: this.state.name,
+      radius: this.state.duration,
+      password: this.state.password,
+      description: this.state.description,
+      longitude: null,
+      latitude: null
+    };
+    createEvent(item);
     event.preventDefault();
   }
+
   render() {
     return (
       <div className="CreateEvent">

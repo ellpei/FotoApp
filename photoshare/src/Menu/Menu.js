@@ -5,12 +5,11 @@ import "./Menu.css";
 import 'bootstrap/dist/css/bootstrap.css';
 
 class Menu extends Component {
+
   render() {
     return (
       <div className="Menu">
-
-
-
+        
       </div>
     );
   }
