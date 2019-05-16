@@ -5,7 +5,7 @@ import "./CreateEvent.css";
 import NavBar from "../NavBar/NavBar.js";
 import 'bootstrap/dist/css/bootstrap.css';
 import firebase from '../firebase.js';
-import { createEvent } from "../data/GlobalFunctions.js";
+import modelInstance from '../data/Model.js'
 
 class CreateEvent extends Component {
 
@@ -42,7 +42,7 @@ class CreateEvent extends Component {
       longitude: null,
       latitude: null
     };
-    createEvent(item);
+    modelInstance.createEvent(item);
     event.preventDefault();
   }
 
@@ -58,7 +58,9 @@ class CreateEvent extends Component {
           <input name="password" type="text" placeholder="Event password" value={this.state.password} onChange={this.handleChange} required/>
           <input name="description" type="text" placeholder="Description" value={this.state.description} onChange={this.handleChange}/>
           <div id="submit-container">
-            <input id="submit-btn" type="submit" value="Submit"></input>
+            <Link to="/InsideEvent">
+              <input id="submit-btn" type="submit" value="Submit"></input>
+            </Link>
           </div>
         </form>
       </div>

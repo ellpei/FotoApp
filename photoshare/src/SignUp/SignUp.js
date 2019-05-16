@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import "../index.css";
 import "./SignUp.css";
 import 'bootstrap/dist/css/bootstrap.css';
-import {createUser} from "../data/GlobalFunctions.js";
 import NavBar from "../NavBar/NavBar.js";
+import modelInstance from '../data/Model.js'
 
 
 class SignUp extends Component {
@@ -38,7 +38,7 @@ class SignUp extends Component {
       attendedEvents: null
     };
 
-    createUser(item);
+    modelInstance.createUser(item);
     event.preventDefault();
   }
 
