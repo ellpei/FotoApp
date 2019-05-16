@@ -9,8 +9,11 @@ class AttendEvent extends Component {
   render() {
     return (
       <div className="AttendEvent">
-      <NavBar title="Attend" prev={this.props.history}></NavBar>
-      <h2>Attend Event</h2>
+        <NavBar title="Attend" prev={this.props.history}></NavBar>
+        <h2>Attend Event</h2>
+        <div class="list-container">
+          
+        </div>
       </div>
     );
   }

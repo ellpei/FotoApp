@@ -27,12 +27,12 @@ class LogIn extends Component {
           <Link to="/Home">
             <button type="button" class="btn">Log In</button>
           </Link>
-        </div>
-        <div class="footer" id="footer-box">
+          <br/>
+          <br/>
+          <br/>
           <Link to="/SignUp">
-            <button type="button" class="btn">Don't have an account? Sign up</button>
+            Don't have an account? Sign up
           </Link>
-
         </div>
       </div>
 
