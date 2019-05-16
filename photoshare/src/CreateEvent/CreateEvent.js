@@ -5,7 +5,8 @@ import "./CreateEvent.css";
 import NavBar from "../NavBar/NavBar.js";
 import 'bootstrap/dist/css/bootstrap.css';
 import firebase from '../firebase.js';
-import modelInstance from '../data/Model.js'
+import modelInstance from '../data/Model.js';
+import { Redirect } from 'react-router'
 
 class CreateEvent extends Component {
 
@@ -16,7 +17,8 @@ class CreateEvent extends Component {
       radius: '',
       duration: '',
       password: '',
-      description: ''
+      description: '',
+      submitted: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,7 +34,6 @@ class CreateEvent extends Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.name + '\nradius: ' + this.state.radius + '\nduration: ' + this.state.duration + '\npassword: ' + this.state.password + '\ndescription: ' + this.state.description);
     //store to database
     const item = {
       name: this.state.name,
@@ -44,6 +45,9 @@ class CreateEvent extends Component {
     };
     modelInstance.createEvent(item);
     event.preventDefault();
+    this.setState({
+      submitted: true
+    });
   }
 
   render() {
@@ -58,9 +62,8 @@ class CreateEvent extends Component {
           <input name="password" type="text" placeholder="Event password" value={this.state.password} onChange={this.handleChange} required/>
           <input name="description" type="text" placeholder="Description" value={this.state.description} onChange={this.handleChange}/>
           <div id="submit-container">
-            <Link to="/InsideEvent">
-              <input id="submit-btn" type="submit" value="Submit"></input>
-            </Link>
+            {this.state.submitted ? <Redirect to="InsideEvent"/> : null}
+            <input id="submit-btn" type="submit" value="Submit"></input>
           </div>
         </form>
       </div>

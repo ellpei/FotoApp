@@ -4,13 +4,18 @@ import firebase from '../firebase.js';
 class Model extends ObservableModel {
 
   constructor() {
+
+
     super();
     this._dummy = 4;
     this.state = {
       userID: "-LevyD6ImWkKD6yALlcs",
       currentEventID: "",
-      currEvent: null
+      currEvent: null,
+      storageRef: null
     }
+
+
   }
 
   getDummy() {
@@ -44,8 +49,8 @@ class Model extends ObservableModel {
   }
 
   //callback to store event. Receives currlocation
-  storeEvent = (pos) =>  {
-    alert("calback to storeEvent")
+  storeEvent = (pos) => {
+
     const eventsRef = firebase.database().ref('events');
 
     this.state.currEvent["latitude"] = pos.coords.latitude;
@@ -56,6 +61,10 @@ class Model extends ObservableModel {
     //add this new event ID to the past event list in this user
     this.addEventToUser(eventID);
     this.setCurrentEvent(eventID);
+    //create an event folder in Firestore
+    var storageRef = firebase.storage().ref();
+    var newFolderRef = storageRef.child(eventID + '/images');   //the folder for each event is named after the eventID
+    newFolderRef.putString('.')
   }
 
   createEvent(newEvent) {
