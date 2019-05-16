@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+
 import modelInstance from "./data/Model";
 import "./App.css";
 import LogIn from "./LogIn/LogIn";
@@ -27,15 +29,20 @@ class App extends Component {
         <header className="App-header">
           {/*<h1 className="App-title">{this.state.title}</h1>*/}
           {/* We rended diffrent component based on the path */}
-          <Route exact path="/" component={LogIn} />
-          <Route exact path="/SignUp" component={SignUp} />
-          <Route path="/AttendEvent" component={AttendEvent} />
-          <Route path="/CreateEvent" component={CreateEvent} />
-          <Route path="/EventAlbum" component={EventAlbum} />
-          <Route path="/Home" component={Home} />
-          <Route path="/InsideEvent" component={InsideEvent} />
-          <Route path="/PastEvents" component={PastEvents} />
-          <Route path="/Camera" component={Camera} />
+
+          <Router>
+            <div>
+              <Route exact path="/" component={LogIn} />
+              <Route exact path="/SignUp" component={SignUp} />
+              <Route path="/AttendEvent" component={AttendEvent} />
+              <Route path="/CreateEvent" component={CreateEvent} />
+              <Route path="/EventAlbum" component={EventAlbum} />
+              <Route path="/Home" component={Home} />
+              <Route path="/InsideEvent" component={InsideEvent} />
+              <Route path="/PastEvents" component={PastEvents} />
+              <Route path="/Camera" component={Camera} />
+           </div>
+          </Router>
         </header>
       </div>
     );
