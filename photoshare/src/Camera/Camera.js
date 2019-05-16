@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Webcam from "react-webcam";
+import NavBar from "../NavBar/NavBar.js";
 import "./Camera.css";
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -63,7 +64,7 @@ class Camera extends Component {
 
     return (
       <div className="Camera">
-        <p>Camera</p>
+        <NavBar title="Camera" prev={this.props.history}></NavBar>
         <div className="camera-container">
 
         <div>
@@ -89,7 +90,7 @@ class Camera extends Component {
             <button id="uploadBtn" onClick={this.uploadPhoto}>Upload</button>
             <button id="switch" onClick={this.facingToggle}>Switch camera</button>
           </div>
-          
+
         </div>
       </div>
     );
