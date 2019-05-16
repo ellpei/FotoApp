@@ -13,3 +13,13 @@
   border-style: solid;
   border-width: 2px;
 }
+
+#datepicker:before {
+  content: 'Start date ';
+  margin-right: 6em;
+}
+
+#timepicker:before {
+  content: 'Start time ';
+  margin-right: 6em;
+}
