@@ -16,6 +16,8 @@ class CreateEvent extends Component {
       name: '',
       radius: '',
       duration: '',
+      startDate: null,
+      startTime: null,
       password: '',
       description: '',
       submitted: false
@@ -34,6 +36,8 @@ class CreateEvent extends Component {
   }
 
   handleSubmit(event) {
+    //get currenttime
+
     //store to database
     const item = {
       name: this.state.name,
@@ -41,7 +45,9 @@ class CreateEvent extends Component {
       password: this.state.password,
       description: this.state.description,
       longitude: null,
-      latitude: null
+      latitude: null,
+      startTime: this.state.startTime,
+      startDate: this.state.startDate
     };
     modelInstance.createEvent(item);
     event.preventDefault();
@@ -58,7 +64,9 @@ class CreateEvent extends Component {
           <form onSubmit={this.handleSubmit}>
           <input name="name" type="text" placeholder= "Event name" value={this.state.name} onChange={this.handleChange} required/>
           <input name="radius" type="text" placeholder= "Event radius (m)" value={this.state.radius} onChange={this.handleChange} required/>
-          <input name="duration" type="text" placeholder="Duration (hours)" value={this.state.duration} onChange={this.handleChange} required/>
+          <input name="startDate" type="date" placeholder="Starting date" value={this.state.startDate} onChange={this.handleChange} required/>
+          <input name="startTime" type="time" min="0:00" max="24:00" placeholder="Starting time" value={this.state.startTime} onChange={this.handleChange} required/>
+          <input name="duration" type="number" placeholder="Duration (hours)" value={this.state.duration} onChange={this.handleChange} required/>
           <input name="password" type="text" placeholder="Event password" value={this.state.password} onChange={this.handleChange} required/>
           <input name="description" type="text" placeholder="Description" value={this.state.description} onChange={this.handleChange}/>
           <div id="submit-container">
