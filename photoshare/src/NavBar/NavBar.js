@@ -8,9 +8,6 @@ import backimg from "./back.svg";
 
 class NavBar extends Component {
 
-  constructor(props) {
-    super(props);
-  }
 
   goBack = () => {
     //this.props.history.goBack();
@@ -19,7 +16,7 @@ class NavBar extends Component {
 
   render() {
 
-    var backbtn = this.props.title != "Home" ?
+    var backbtn = this.props.title !== "Home" ?
     <div id="back-btn" width="20">
       <img src={backimg} width="20" alt="Back" onClick={this.goBack}/>
     </div>
@@ -29,7 +26,7 @@ class NavBar extends Component {
       <div className="NavBar">
         <div id="back-btn-container">{backbtn}</div>
 
-        {this.props.title == "Home" ?
+        {this.props.title === "Home" ?
           (<div id="appname-container-left">
               <Link to="/Home">
                 <div id="appname">PhotoShare</div>

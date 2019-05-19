@@ -37,15 +37,25 @@ class Model extends ObservableModel {
   setCurrentEvent(eventID) {
     this.state.setCurrentEvent = eventID;
   }
+  /*
+  //gets all the events from the database
+  getAllEvents() {
+    var eventsRef = firebase.database.ref('events/');
+    var eventList;
+    eventsRef.orderByValue().on("startTime", function(snapshot) {
+      snapshot.forEach(function(data) {
+        console.log("The data key:" + data.key + " value: " + data.val());
+        eventList.push(data.val())
+      })
 
+    });
+    return eventList
+  }
+*/
   //adds event to the current user's attendedevents list
   addEventToUser(eventID) {
-
     var userRef = firebase.database().ref('users/' + this.state.userID);
     userRef.child("attendedEvents").child(eventID).set(true);
-
-    //previousEvents.push(eventID);
-    //firebase.database().ref('users/' + userID + '/attendedEvents').set(previousEvents);
   }
 
   //callback to store event. Receives currlocation

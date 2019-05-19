@@ -8,9 +8,7 @@ import "../data/Model.js"
 class LogIn extends Component {
 
   render() {
-    function hejhek(name) {
-      return <h1>{name}</h1>
-    }
+
     return (
       <div className="LogIn">
         <div id="outer-box">
