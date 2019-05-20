@@ -63,7 +63,8 @@ class AttendEvent extends Component {
                 description={item.description}
                 startDate={item.startDate}
                 startTime={item.startTime}
-                key={item.id}></DisplayEvent>
+                key={item.id}
+                history={this.props.history}></DisplayEvent>
               );
             })}
 

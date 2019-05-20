@@ -15,6 +15,7 @@ class DisplayEvent extends Component {
 
   handleClick = (e) => {
     modelInstance.attendEvent(this.props.id);
+    this.props.history.push('/InsideEvent');
   }
 
   render() {

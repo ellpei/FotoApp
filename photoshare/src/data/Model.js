@@ -37,11 +37,6 @@ class Model extends ObservableModel {
   setCurrentEvent(eventID) {
     this.state.currentEvent = eventID;
   }
-  //adds event to the current user's attendedevents list
-  addEventToUser(eventID) {
-    var userRef = firebase.database().ref('users/' + this.state.userID);
-    userRef.child("attendedEvents").child(eventID).set(true);
-  }
 
   //callback to store event. Receives currlocation
   storeEvent = (pos) => {
@@ -75,8 +70,11 @@ class Model extends ObservableModel {
       this.storeEvent(coords)
     }
   }
+
   attendEvent(eventID) {
-    this.addEventToUser(eventID);
+    this.state.currentEventID = eventID;
+    var userRef = firebase.database().ref('users/' + this.state.userID);
+    userRef.child("attendedEvents").child(eventID).set(true);
   }
 
   createUser(userData) {
