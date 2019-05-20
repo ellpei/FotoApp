@@ -4,7 +4,7 @@ import "./InsideEvent.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import NavBar from "../NavBar/NavBar.js";
 import modelInstance from '../data/Model.js';
-
+import camerashutter from './camerashutter.svg';
 class InsideEvent extends Component {
 
   constructor(props) {
@@ -21,7 +21,7 @@ class InsideEvent extends Component {
         <NavBar title="InsideEvent" prev={this.props.history}></NavBar>
         <h2>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h2>
         <Link to="./Camera">
-          <button>Camera</button>
+          <button className="camera-btn"><img src={camerashutter} alt="Upload photo"/></button>
         </Link>
       </div>
     );
