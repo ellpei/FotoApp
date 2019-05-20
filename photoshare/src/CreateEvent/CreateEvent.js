@@ -4,7 +4,7 @@ import "../index.css";
 import "./CreateEvent.css";
 import NavBar from "../NavBar/NavBar.js";
 import 'bootstrap/dist/css/bootstrap.css';
-import firebase from '../firebase.js';
+import firebase from '../Firebase/firebase.js';
 import modelInstance from '../data/Model.js'
 
 class CreateEvent extends Component {

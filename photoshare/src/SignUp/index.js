@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import firebase from "../firebase.js";
+import firebase from "../Firebase/firebase";
 
 import SignUp from "./SignUp";
 
 class SignUpContainer extends Component {  
   handleSignUp = async event => {
+    alert("sadssssssssssssss");
+    console.log("asdasdasdasdasdasdasdasdasdasd");
     event.preventDefault();
     const { email, password } = event.target.elements;
     try {

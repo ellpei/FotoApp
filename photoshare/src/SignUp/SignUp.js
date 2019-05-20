@@ -20,7 +20,7 @@ const SignUp = ({ onSubmit }) => {
           <div id="submit-container">
             <button id="submit-btn" type="submit">Sign Up</button>
           </div>
-      </form>
+x      </form>
     </div>
   );
 };

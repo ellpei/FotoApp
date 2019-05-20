@@ -13,7 +13,12 @@ import InsideEvent from "./InsideEvent/InsideEvent";
 import Camera from "./Camera/Camera";
 import PastEvents from "./PastEvents/PastEvents";
 import SignUp from "./SignUp/SignUp";
-import firebase from "./firebase.js";
+//import firebase from "./Firebase/firebase.js";
+
+import withFirebaseAuth from 'react-with-firebase-auth'
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import firebaseConfig from './Firebase/firebaseConfig';
 
 class App extends Component {
   constructor(props) {

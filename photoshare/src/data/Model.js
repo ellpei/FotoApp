@@ -1,5 +1,5 @@
 import ObservableModel from "./ObservableModel";
-import firebase from '../firebase.js';
+import firebase from '../Firebase/firebase.js';
 
 class Model extends ObservableModel {
 
