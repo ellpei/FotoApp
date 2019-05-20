@@ -71,10 +71,14 @@ class Model extends ObservableModel {
     }
   }
 
-  attendEvent(eventID) {
-    this.state.currentEventID = eventID;
+  addEventToUser(eventID) {
     var userRef = firebase.database().ref('users/' + this.state.userID);
     userRef.child("attendedEvents").child(eventID).set(true);
+  }
+
+  attendEvent(eventID) {
+    this.state.currentEventID = eventID;
+    this.addEventToUser(eventID);
   }
 
   createUser(userData) {
