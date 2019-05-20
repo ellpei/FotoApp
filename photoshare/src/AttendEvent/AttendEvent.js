@@ -14,55 +14,38 @@ class AttendEvent extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loaded: false,
       events: []
     };
-    //var list = this.getEvents();
-
   }
-
-  /*
-
-  getEvents = () => {
-
+  //called automatically when the DOM is shown to the user
+  componentDidMount = () => {
     const eventsRef = firebase.database().ref('events');
-    eventsRef.once("value", function(snapshot) {
 
-      snapshot.forEach(function(childSnapshot) {
-        var thisEvent = {
-          key: childSnapshot.key,
-          data: childSnapshot.val()
-        }
-        this.events.push(thisEvent)
+    eventsRef.on("value", (snapshot) => {
+      let items = snapshot.val();
+      let newState = [];
+      for(let item in items) {
+        newState.push({
+          id: item,
+          admin: items[item].admin,
+          description: items[item].description,
+          latitude: items[item].latitude,
+          longitude: items[item].longitude,
+          name: items[item].name,
+          radius: items[item].radius,
+          startDate: items[item].startDate,
+          startTime: items[item].startTime
+        });
+      }
+      this.setState( {
+        events: newState
       });
-    }, function(errorObject) {
-      console.log("The read failed: " + errorObject.code);
     });
-    return events;
   }
-  */
 
   attendEvent = (eventID) => {
     modelInstance.addEventToUser(eventID);
-  }
-  //render all the events within reach of current location
-  renderEvents = () => {
-
-    const eventsRef = firebase.database().ref('events');
-    let evs;
-
-    eventsRef.once("value", function(snapshot) {
-
-      snapshot.forEach(function(childsnap) {
-        //alert("name: " + childsnap.val().name)
-        const element = <div className="event">Name: {childsnap.val().name}</div>;
-        evs += element;
-      });
-      return (<div>{evs}</div>);
-    }, function(errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
-    return <div>test: {evs}</div>;
   }
 
   render() {
@@ -72,8 +55,17 @@ class AttendEvent extends Component {
         <NavBar title="Attend" prev={this.props.history}></NavBar>
         <h2>Attend Event</h2>
         <div className="list-container">
-        {this.renderEvents()}
+          <ul>
+            {this.state.events.map((item) => {
+              return (
+                <li key={item.id}>
+                  <p>Name: {item.name}</p>
+                </li>
+              )
+            })}
+          </ul>
         </div>
+
       </div>
     );
   }
