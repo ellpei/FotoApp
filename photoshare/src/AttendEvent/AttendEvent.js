@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../index.css";
 import "./AttendEvent.css";
 import NavBar from "../NavBar/NavBar.js";
+import DisplayEvent from "../DisplayEvent/DisplayEvent.js";
 import 'bootstrap/dist/css/bootstrap.css';
 import modelInstance from '../data/Model.js';
 //import firebase from '../firebase.js';
@@ -44,26 +45,28 @@ class AttendEvent extends Component {
     });
   }
 
-  attendEvent = (eventID) => {
-    modelInstance.addEventToUser(eventID);
-  }
-
   render() {
 
     return (
       <div className="AttendEvent">
         <NavBar title="Attend" prev={this.props.history}></NavBar>
         <h2>Attend Event</h2>
+        <div>Events near you: </div>
         <div className="list-container">
-          <ul>
+            <div className="new-hl"></div>
             {this.state.events.map((item) => {
               return (
-                <li key={item.id}>
-                  <p>Name: {item.name}</p>
-                </li>
-              )
+                <DisplayEvent
+                name={item.name}
+                radius={item.radius}
+                id={item.id}
+                description={item.description}
+                startDate={item.startDate}
+                startTime={item.startTime}
+                key={item.id}></DisplayEvent>
+              );
             })}
-          </ul>
+
         </div>
 
       </div>

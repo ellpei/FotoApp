@@ -35,23 +35,8 @@ class Model extends ObservableModel {
   }
 
   setCurrentEvent(eventID) {
-    this.state.setCurrentEvent = eventID;
+    this.state.currentEvent = eventID;
   }
-  /*
-  //gets all the events from the database
-  getAllEvents() {
-    var eventsRef = firebase.database.ref('events/');
-    var eventList;
-    eventsRef.orderByValue().on("startTime", function(snapshot) {
-      snapshot.forEach(function(data) {
-        console.log("The data key:" + data.key + " value: " + data.val());
-        eventList.push(data.val())
-      })
-
-    });
-    return eventList
-  }
-*/
   //adds event to the current user's attendedevents list
   addEventToUser(eventID) {
     var userRef = firebase.database().ref('users/' + this.state.userID);
@@ -89,6 +74,9 @@ class Model extends ObservableModel {
       };
       this.storeEvent(coords)
     }
+  }
+  attendEvent(eventID) {
+    this.addEventToUser(eventID);
   }
 
   createUser(userData) {
