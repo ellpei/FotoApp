@@ -2,15 +2,24 @@
 
 html {
   background: linear-gradient(180deg, #356DFD 0%, #FC40E1 100%);
-  width: 100%;
-  height: 100%;
+  background: -moz-linear-gradient(top,  #356DFD 0%, #FC40E1 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top,  #356DFD 0%, #FC40E1 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(to bottom,  #356DFD 0%, #FC40E1 100%); /* W3C */
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100%;
 }
 
 body {
   font-family: 'Montserrat', sans-serif;
-  position: relative;
+  width: 100%;
+  min-height: 100%;
   color: #FFFFFF;
   text-align: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding-bottom: 30px;
 }
 
 h1 {
@@ -76,7 +85,7 @@ a:hover {
 }
 
 .horizontal-line {
-  width: 90%;
+  width: 100%;
   height: 1px;
   background-color: #FFFFFF;
   display: inline-block;

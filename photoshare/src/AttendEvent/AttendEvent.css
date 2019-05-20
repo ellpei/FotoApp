@@ -4,4 +4,5 @@
   height: 1px;
   background-color: #FFFFFF;
   display: inline-block;
+  overflow: visible;
 }

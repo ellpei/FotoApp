@@ -4,7 +4,6 @@ import "../index.css";
 import "./AttendEvent.css";
 import NavBar from "../NavBar/NavBar.js";
 import DisplayEvent from "../DisplayEvent/DisplayEvent.js";
-import 'bootstrap/dist/css/bootstrap.css';
 import modelInstance from '../data/Model.js';
 //import firebase from '../firebase.js';
 import * as firebase from 'firebase';
