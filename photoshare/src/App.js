@@ -11,6 +11,8 @@ import InsideEvent from "./InsideEvent/InsideEvent";
 import Camera from "./Camera/Camera";
 import PastEvents from "./PastEvents/PastEvents";
 import SignUp from "./SignUp/SignUp";
+import About from "./About/About";
+
 import firebase from "./firebase.js";
 
 class App extends Component {
@@ -36,6 +38,7 @@ class App extends Component {
           <Route path="/InsideEvent" component={InsideEvent} />
           <Route path="/PastEvents" component={PastEvents} />
           <Route path="/Camera" component={Camera} />
+          <Route path="/About" component={About} />
         </header>
       </div>
     );
