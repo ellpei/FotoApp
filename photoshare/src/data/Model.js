@@ -8,18 +8,16 @@ class Model extends ObservableModel {
 
     super();
     this._dummy = 4;
+    this._currentEventID = "-LfJzJAnjczbdDpQJAxs";
+    this._userID = "LevyD6ImWkKD6yALlcs";
+
     this.state = {
       userID: "-LevyD6ImWkKD6yALlcs",
-      currentEventID: "",
+      eventID: "-LfJzJAnjczbdDpQJAxs",
       currEvent: null,
       storageRef: null
     }
 
-
-  }
-
-  getDummy() {
-    return this._dummy;
   }
 
   getUserID() {
@@ -30,11 +28,15 @@ class Model extends ObservableModel {
     this.state.userID = uID;
   }
 
-  getCurrentEvent() {
+  getEventID() {
     return this.state.currentEventID;
   }
 
-  setCurrentEvent(eventID) {
+  // getEventID(){
+  //   return this._currentEventID;
+  // }
+
+  setEventID(eventID) {
     this.state.setCurrentEvent = eventID;
   }
   /*
@@ -105,16 +107,62 @@ class Model extends ObservableModel {
   }
 
   returnNearbyEvents() {
-
+    console.log("asdasd");
   }
+
   /*Called before uploading photo. The user must be within the event radius*/
-  authenticateLocation(eventID) {
+  authenticateLocation(item, _callback, state) {
+    const eventsRef = firebase.database().ref("events/-LfJzJAnjczbdDpQJAxs"); // + this.state.currEventID);
+    var eventLongitude;
+    var eventLatitude;
+    var userLongitude;
+    var userLatitude;
+    var radius;
+
+    eventsRef.once("value", function(data) {
+      eventLongitude = data.child("longitude").node_.value_;
+      eventLatitude = data.child("latitude").node_.value_;
+      radius = data.child("radius").node_.value_;
+      navigator.geolocation.getCurrentPosition((pos) => {
+        userLongitude = pos.coords.longitude;
+        userLatitude = pos.coords.latitude;
+
+        var R = 6378.137; // Radius of earth in KM
+        var dLat = userLatitude * Math.PI / 180 - eventLatitude * Math.PI / 180;
+        var dLon = userLongitude * Math.PI / 180 - eventLongitude * Math.PI / 180;
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(eventLatitude * Math.PI / 180) * Math.cos(userLatitude * Math.PI / 180) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = (R * c) * 1000;
+
+        //TODO change this the other way
+        if(d > radius){
+          _callback(item, state);
+        } else{
+          console.log("THIS IS NOT OKAY");
+        }
+      });
+    });
+
     //get event location
-
     //get event radius
-
+  }
+  
+  uploadPhoto(item) {
+    this.authenticateLocation(item, this.storePhoto, this.state);
   }
 
+  storePhoto(item, state) {
+    console.log("PHOTO IS BEING STORED AS WE SPEAK!");
+    var path = "/" + state.eventID;
+    var storageRef = firebase.storage().ref(path);
+    var folderRef = storageRef.child(state.userID + "###" + item.time);
+    var image64 = item.image;
+    var data = image64.replace(/^data:image\/\w+;base64,/, "");
+
+    folderRef.putString(data, 'base64', {contentType: 'image/jpg'});
+  }
 }
 
 const modelInstance = new Model();
