@@ -4,8 +4,6 @@ import firebase from '../firebase.js';
 class Model extends ObservableModel {
 
   constructor() {
-
-
     super();
     this._dummy = 4;
     this._currentEventID = "-LfJzJAnjczbdDpQJAxs";
@@ -14,11 +12,14 @@ class Model extends ObservableModel {
     this.state = {
       userID: "-LevyD6ImWkKD6yALlcs",
       eventID: "-LfJzJAnjczbdDpQJAxs",
+      currentEventObject: null,  //current event object
       currEvent: null,
       storageRef: null
     }
 
+    this.addEventToUser = this.addEventToUser.bind(this);
   }
+
 
   getUserID() {
     return this.state.userID;
@@ -32,13 +33,10 @@ class Model extends ObservableModel {
     return this.state.currentEventID;
   }
 
-  // getEventID(){
-  //   return this._currentEventID;
-  // }
-
   setEventID(eventID) {
     this.state.setCurrentEvent = eventID;
   }
+
   /*
   //gets all the events from the database
   getAllEvents() {
@@ -49,30 +47,31 @@ class Model extends ObservableModel {
         console.log("The data key:" + data.key + " value: " + data.val());
         eventList.push(data.val())
       })
+  */
 
+  //must be called if you enter an event through "AttendEvent"
+  getCurrentEventObject() {
+    const eventsRef = firebase.database().ref('events/' + this.state.currentEventID);
+    eventsRef.on("value", (snapshot) => {
+      let item = snapshot.val();
+      this.state.currentEventObject = item;
     });
-    return eventList
+    return this.state.currentEventObject;
   }
-*/
-  //adds event to the current user's attendedevents list
-  addEventToUser(eventID) {
-    var userRef = firebase.database().ref('users/' + this.state.userID);
-    userRef.child("attendedEvents").child(eventID).set(true);
-  }
-
+  
   //callback to store event. Receives currlocation
   storeEvent = (pos) => {
 
     const eventsRef = firebase.database().ref('events');
 
-    this.state.currEvent["latitude"] = pos.coords.latitude;
-    this.state.currEvent["longitude"] = pos.coords.longitude;
-    this.state.currEvent["admin"] = this.state.userID;
-    var newEventRef = eventsRef.push(this.state.currEvent);
+    this.state.currentEventObject["latitude"] = pos.coords.latitude;
+    this.state.currentEventObject["longitude"] = pos.coords.longitude;
+    this.state.currentEventObject["admin"] = this.state.userID;
+    var newEventRef = eventsRef.push(this.state.currentEventObject);
     var eventID = newEventRef.key;
     //add this new event ID to the past event list in this user
     this.addEventToUser(eventID);
-    this.setCurrentEvent(eventID);
+    this.state.currentEventID = eventID;
     //create an event folder in Firestore
     var storageRef = firebase.storage().ref();
     var newFolderRef = storageRef.child(eventID + '/images');   //the folder for each event is named after the eventID
@@ -80,7 +79,7 @@ class Model extends ObservableModel {
   }
 
   createEvent(newEvent) {
-    this.state.currEvent = newEvent;
+    this.state.currentEventObject = newEvent;
 
     if(navigator.geolocation) {
       var currLocation = navigator.geolocation.getCurrentPosition(this.storeEvent);
@@ -91,6 +90,20 @@ class Model extends ObservableModel {
       };
       this.storeEvent(coords)
     }
+  }
+
+  addEventToUser = (eventID) => {
+    var userRef = firebase.database().ref('users/' + this.state.userID);
+    userRef.child("attendedEvents").child(eventID).set(true);
+
+    this.state.currentEventID =  eventID
+
+  }
+
+  attendEvent = (eventID) => {
+    this.state.currentEventID = eventID;
+    this.getCurrentEventObject();
+    this.addEventToUser(eventID);
   }
 
   createUser(userData) {

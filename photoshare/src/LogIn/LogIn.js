@@ -13,9 +13,8 @@ class LogIn extends Component {
       <div className="LogIn">
         <div id="outer-box">
           <h1>PhotoShare.</h1>
-          <div class="horizontal-line"></div>
           <div id="leftalign">
-            <p> Capture the moment. Revolutionizing event-based photo sharing platform</p>
+            <p> Capture the moment with our revolutionizing event-based photo sharing platform.</p>
           </div>
           <br/>
           <input type="username" placeholder="Username" name="username" required></input><br/>

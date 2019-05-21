@@ -40,6 +40,7 @@ class SignUp extends Component {
 
     modelInstance.createUser(item);
     event.preventDefault();
+    this.props.history.push('/Home');
   }
 
   render() {

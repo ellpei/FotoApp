@@ -1,0 +1,18 @@
+
+.InsideEvent {
+  text-align: center;
+}
+
+
+.camera-btn {
+  margin-left: -30px;
+  background-color: Transparent;
+  border-width: 0px;
+  position: fixed;
+  bottom: 30px;
+}
+
+.camera-btn img {
+  display: inline;
+  width: 50px;
+}

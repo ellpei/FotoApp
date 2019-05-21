@@ -3,7 +3,6 @@ body {
   height: inherit;
   width: inherit;
   position:relative;
-  overflow:hidden;
 }
 
 ::placeholder { /* Most modern browsers support this now. */
@@ -61,11 +60,3 @@ input {
   font-size: 16px;
   border-bottom: 1.5px solid white;
 }
-/*
-.footer {
-  height: 10px;
-  position: absolute;
-  width:100%;
-  bottom: 0px;
-}
-*/
