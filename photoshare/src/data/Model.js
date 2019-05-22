@@ -20,7 +20,6 @@ class Model extends ObservableModel {
     this.addEventToUser = this.addEventToUser.bind(this);
   }
 
-
   getUserID() {
     return this.state.userID;
   }
@@ -58,7 +57,7 @@ class Model extends ObservableModel {
     });
     return this.state.currentEventObject;
   }
-  
+
   //callback to store event. Receives currlocation
   storeEvent = (pos) => {
 
@@ -161,7 +160,7 @@ class Model extends ObservableModel {
     //get event location
     //get event radius
   }
-  
+
   uploadPhoto(item) {
     this.authenticateLocation(item, this.storePhoto, this.state);
   }

@@ -17,7 +17,8 @@ class Camera extends Component {
     image_time: null,
     image_by: null,
     cam_height: window.innerHeight*0.8,
-    facing: "user"
+    facing: "user",
+    currentEventObject: modelInstance.state.currentEventObject
   }
 
   setRef = webcam => {
@@ -56,6 +57,8 @@ class Camera extends Component {
     };
 
     modelInstance.uploadPhoto(item);
+    //go back to the event view
+    this.props.history.goBack();
   };
 
   facingToggle = () => {
@@ -78,14 +81,13 @@ class Camera extends Component {
       height: window.innerHeight
     };
 
-
-//    Philppa ska på ADD Dejt awww 2019-05-20
-
     let imageCanvas = <Webcam ref={this.setRef}/>;
     let capturedPic = <img src={this.state.imageData} alt=""/>;
     return (
       <div className="Camera">
         <NavBar title="Camera" prev={this.props.history}></NavBar>
+        <h2>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h2>
+        <h4>Photo Upload</h4>
         <div className="camera-container">
           <Webcam
             audio ={false}
