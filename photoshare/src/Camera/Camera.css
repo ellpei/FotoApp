@@ -3,6 +3,30 @@
   width: 100%;
 }
 
+button {
+  background-color: Transparent;
+  padding: 5px 10px 5px 10px;
+  border-style: none;
+  margin: 2px;
+  color: #FFFFFF;
+}
+#captureBtn {
+  width: 30px;
+}
+
+#deleteBtn {
+
+}
+
+#uploadBtn {
+
+}
+
+#switch {
+
+}
+
+
 Webcam {
   width: 100%;
 }

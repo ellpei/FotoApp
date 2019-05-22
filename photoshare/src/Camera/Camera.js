@@ -5,6 +5,9 @@ import NavBar from "../NavBar/NavBar.js";
 import "./Camera.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import modelInstance from '../data/Model.js';
+import camerashutter from './camerashutter.svg';
+import cancelbutton from './cancelbtn.svg';
+import uploadbtn from './uploadbtn.png';
 
 class Camera extends Component {
 
@@ -13,7 +16,7 @@ class Camera extends Component {
     image_name: "",
     image_time: null,
     image_by: null,
-    cam_height: 350,
+    cam_height: window.innerHeight*0.8,
     facing: "user"
   }
 
@@ -40,7 +43,7 @@ class Camera extends Component {
     e.persist();
     this.setState({
       imageData: null,
-      cam_height: 350
+      cam_height: window.innerHeight*0.8
     })
   };
 
@@ -80,31 +83,36 @@ class Camera extends Component {
 
     let imageCanvas = <Webcam ref={this.setRef}/>;
     let capturedPic = <img src={this.state.imageData} alt=""/>;
-    alert("window width: " + window.innerWidth)
     return (
       <div className="Camera">
         <NavBar title="Camera" prev={this.props.history}></NavBar>
         <div className="camera-container">
           <Webcam
             audio ={false}
-            height={window.innerHeight}
+            height={this.state.cam_height}
             ref={this.setRef}
             getScreenshot="image/jpeg"
-            width={window.innerWidth}
+            width={window.innerWidth*0.9}
             videoConstraints = {videoConstraints}/>
           {this.state.imageData ?
             <div>
-              <img src={this.state.imageData} alt=""/>
+              <img src={this.state.imageData} alt="" width={window.innerWidth*0.6}/>
             </div>
             : null}
-
-
-
           <div className="btn-container">
-            <button id="captureBtn" onClick={this.capture}>Capture photo</button>
-            <button id="deleteBtn" onClick={this.deletePhoto}>Delete photo</button>
-            <button id="uploadBtn" onClick={this.uploadPhoto}>Upload</button>
-            <button id="switch" onClick={this.facingToggle}>Switch camera</button>
+
+          {
+            this.state.imageData ?
+            <div>
+              <button id="deleteBtn" onClick={this.deletePhoto}>
+              <img src={cancelbutton} width="48px" alt="Delete"/>
+              </button>
+              <button id="uploadBtn" onClick={this.uploadPhoto}><img src={uploadbtn} width="40px" alt="Upload"/></button>
+            </div> :
+            <button id="captureBtn" onClick={this.capture}><img src={camerashutter} width="40px" alt="Capture"/></button>
+          }
+
+            {/*<button id="switch" onClick={this.facingToggle}>Switch Camera</button>*/}
           </div>
 
         </div>
