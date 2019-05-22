@@ -15,6 +15,7 @@ class About extends Component {
         <NavBar title="About" prev={this.props.history}></NavBar>
         <h2>About</h2>
         <div className = "textbox">
+        <br/><br/>
         <p>Capture the moment. Create or attend events based on your current
         geolocation and enable the possiblity to upload photos to a shared storage with the other attendees.
         Only those who were actually there will be able to upload and download photos from the event.

@@ -28,10 +28,10 @@ class Camera extends Component {
     console.log(time);
 
     this.setState({
-      imageData: imageSrc, 
-      image_time: time, 
-      image_by: "Jens", 
-      image_event: modelInstance.getEventID(), 
+      imageData: imageSrc,
+      image_time: time,
+      image_by: "Jens",
+      image_event: modelInstance.getEventID(),
       cam_height: 0
     })
   };
@@ -70,34 +70,34 @@ class Camera extends Component {
 
   render() {
     const videoConstraints = {
-      facingMode: "user"
+      facingMode: "user",
+      width: window.innerWidth,
+      height: window.innerHeight
     };
-    
+
 
 //    Philppa ska på ADD Dejt awww 2019-05-20
 
     let imageCanvas = <Webcam ref={this.setRef}/>;
     let capturedPic = <img src={this.state.imageData} alt=""/>;
-
+    alert("window width: " + window.innerWidth)
     return (
       <div className="Camera">
         <NavBar title="Camera" prev={this.props.history}></NavBar>
         <div className="camera-container">
-        <div>
           <Webcam
             audio ={false}
-            height={this.state.cam_height}
+            height={window.innerHeight}
             ref={this.setRef}
             getScreenshot="image/jpeg"
-            width={350}
-            videoConstraints = {videoConstraints}
-          />
+            width={window.innerWidth}
+            videoConstraints = {videoConstraints}/>
           {this.state.imageData ?
             <div>
               <img src={this.state.imageData} alt=""/>
             </div>
             : null}
-        </div>
+
 
 
           <div className="btn-container">
