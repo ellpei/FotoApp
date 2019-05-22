@@ -8,10 +8,29 @@ import backimg from "./back.svg";
 
 class NavBar extends Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      menuVisible: false
+    };
+  }
+
 
   goBack = () => {
     //this.props.history.goBack();
     this.props.prev.goBack();
+  }
+
+  handleMenuClick = () => {
+    if(this.state.menuVisible) {
+      this.setState({
+        menuVisible: false
+      });
+    } else {
+      this.setState({
+        menuVisible: true
+      });
+    }
   }
 
   render() {
@@ -24,6 +43,7 @@ class NavBar extends Component {
 
     return (
       <div className="NavBar">
+      <div id="top-nav">
         <div id="back-btn-container">{backbtn}</div>
 
         {this.props.title === "Home" ?
@@ -38,7 +58,20 @@ class NavBar extends Component {
               </Link>
             </div>)}
 
-        <div id="menu-btn"><img src={menuimg} alt="Menu"/></div>
+        <div id="menu-btn" onClick={this.handleMenuClick}><img src={menuimg} alt="Menu"/></div>
+        </div>
+        {this.state.menuVisible === true ?
+          <div id="drop-down">
+            <div class="link-container">
+              <Link to="/Home">Home</Link><br/>
+            </div>
+            <div class="link-container">
+              <Link to="/About">About</Link><br/>
+            </div>
+            <div class="link-container">
+              <Link to="/Help">Help</Link><br/>
+            </div>
+          </div> : <div></div>}
       </div>
     );
   }

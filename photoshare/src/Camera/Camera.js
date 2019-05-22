@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Webcam from "react-webcam";
 import NavBar from "../NavBar/NavBar.js";
 import "./Camera.css";
@@ -16,7 +15,7 @@ class Camera extends Component {
     image_name: "",
     image_time: null,
     image_by: null,
-    cam_height: window.innerHeight*0.8,
+    cam_height: window.innerHeight*0.5,
     facing: "user",
     currentEventObject: modelInstance.state.currentEventObject
   }
@@ -44,7 +43,7 @@ class Camera extends Component {
     e.persist();
     this.setState({
       imageData: null,
-      cam_height: window.innerHeight*0.8
+      cam_height: window.innerHeight*0.5
     })
   };
 
@@ -98,7 +97,7 @@ class Camera extends Component {
             videoConstraints = {videoConstraints}/>
           {this.state.imageData ?
             <div>
-              <img src={this.state.imageData} alt="" width={window.innerWidth*0.6}/>
+              <img src={this.state.imageData} alt="" width={window.innerWidth*0.9}/>
             </div>
             : null}
           <div className="btn-container">

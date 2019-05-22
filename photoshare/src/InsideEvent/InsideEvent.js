@@ -21,7 +21,7 @@ class InsideEvent extends Component {
         <NavBar title="InsideEvent" prev={this.props.history}></NavBar>
         <h2>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h2>
         <Link to="./Camera">
-          <button className="camera-btn"><img src={camerashutter} alt="Upload photo" width="40px"/></button>
+          <button className="camera-btn"><img src={camerashutter} alt="Upload" width="40px"/></button>
         </Link>
       </div>
     );
