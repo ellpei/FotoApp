@@ -9,12 +9,17 @@ class Model extends ObservableModel {
     this._currentEventID = "-LfJzJAnjczbdDpQJAxs";
     this._userID = "LevyD6ImWkKD6yALlcs";
 
+    this._URL = null;
+    this._NAME = null;
+
+
     this.state = {
       userID: "-LevyD6ImWkKD6yALlcs",
       eventID: "-LfJzJAnjczbdDpQJAxs",
       currentEventObject: null,  //current event object
       currEvent: null,
-      storageRef: null
+      storageRef: null,
+      eventName: ""
     }
 
     this.addEventToUser = this.addEventToUser.bind(this);
@@ -34,6 +39,22 @@ class Model extends ObservableModel {
 
   setEventID(eventID) {
     this.state.setCurrentEvent = eventID;
+  }
+
+  getURL(){
+    return this._URL;
+  }
+
+  setURL(url){
+    this._URL = url;
+  }
+
+  getName(){
+    return this._NAME;
+  }
+
+  setName(name){
+    this._NAME = name;
   }
 
   /*
@@ -66,8 +87,10 @@ class Model extends ObservableModel {
     this.state.currentEventObject["latitude"] = pos.coords.latitude;
     this.state.currentEventObject["longitude"] = pos.coords.longitude;
     this.state.currentEventObject["admin"] = this.state.userID;
+
     var newEventRef = eventsRef.push(this.state.currentEventObject);
     var eventID = newEventRef.key;
+
     //add this new event ID to the past event list in this user
     this.addEventToUser(eventID);
     this.state.currentEventID = eventID;
@@ -93,14 +116,15 @@ class Model extends ObservableModel {
 
   addEventToUser = (eventID) => {
     var userRef = firebase.database().ref('users/' + this.state.userID);
-    userRef.child("attendedEvents").child(eventID).set(true);
+    userRef.child("attendedEvents").child(eventID).set(this.state.eventName);
 
-    this.state.currentEventID =  eventID
+    this.state.eventID =  eventID
 
   }
 
-  attendEvent = (eventID) => {
-    this.state.currentEventID = eventID;
+  attendEvent = (eventID, eventName) => {
+    this.state.eventID = eventID;
+    this.state.eventName = eventName;
     this.getCurrentEventObject();
     this.addEventToUser(eventID);
   }
@@ -172,8 +196,67 @@ class Model extends ObservableModel {
     var folderRef = storageRef.child(state.userID + "###" + item.time);
     var image64 = item.image;
     var data = image64.replace(/^data:image\/\w+;base64,/, "");
-
     folderRef.putString(data, 'base64', {contentType: 'image/jpg'});
+
+    const eventsRef = firebase.database().ref("events/" + state.eventID + "/pictures/");
+    eventsRef.push(state.userID + "###" + item.time);
+  }
+
+  getUsersEvents(){
+    const userEvents = firebase.database().ref("users/" + this.getUserID() + "/attendedEvents");
+
+    return userEvents.once("value", function(data) {
+      console.log(data.val());
+    });;
+
+  }
+
+  getCoverPhoto(eventID){
+    const refDatabase = firebase.database().ref("events/" + eventID + "/pictures");
+    // var firstPictureKey;
+     return refDatabase.once("value", function(data) {
+      console.log(data.val());
+    });
+  }
+
+  itIsWorthTesting(model){
+    var promises = [];
+    var URL = [];
+    var eventName = [];
+    var keys = [];
+    
+    promises.push(firebase.database().ref("users/" + this.getUserID() + "/attendedEvents").once("value"));
+    Promise.all(promises).then(function(data){
+      for(var key in data[0].val()){
+        var promises2 = [];
+        eventName.push(data[0].child(key).node_.value_);
+        keys.push(key);
+        promises2.push(firebase.database().ref("events/" + key + "/pictures").once("value"));
+        var keysCount = 0;
+        Promise.all(promises2).then(function(data2) {
+
+          for (var pic in data2[0].val()){
+            const ref = firebase.storage().ref(keys[keysCount] + "/");
+            var refPic = ref.child(data2[0].child(pic).val());
+            var promises3 = [];
+
+            promises3.push(refPic.getDownloadURL());
+
+            keysCount = keysCount + 1; 
+
+            break;
+          }
+
+          Promise.all(promises3).then(function(dataURL) {
+            URL.push(dataURL[0]);
+            model.notifyObservers();
+          })
+        });
+      }
+
+      model._URL = URL;
+      model._NAME = eventName;
+    });
   }
 }
 
