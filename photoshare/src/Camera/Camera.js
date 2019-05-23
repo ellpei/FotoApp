@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Webcam from "react-webcam";
 import NavBar from "../NavBar/NavBar.js";
 import "./Camera.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import modelInstance from '../data/Model.js';
+import camerashutter from './camerashutter.svg';
+import cancelbutton from './cancelbtn.svg';
+import uploadbtn from './uploadbtn.png';
 
 class Camera extends Component {
 
@@ -13,8 +15,9 @@ class Camera extends Component {
     image_name: "",
     image_time: null,
     image_by: null,
-    cam_height: 350,
-    facing: "user"
+    cam_height: window.innerHeight*0.5,
+    facing: "user",
+    currentEventObject: modelInstance.state.currentEventObject
   }
 
   setRef = webcam => {
@@ -28,10 +31,10 @@ class Camera extends Component {
     console.log(time);
 
     this.setState({
-      imageData: imageSrc, 
-      image_time: time, 
-      image_by: "Jens", 
-      image_event: modelInstance.getEventID(), 
+      imageData: imageSrc,
+      image_time: time,
+      image_by: "Jens",
+      image_event: modelInstance.getEventID(),
       cam_height: 0
     })
   };
@@ -40,7 +43,7 @@ class Camera extends Component {
     e.persist();
     this.setState({
       imageData: null,
-      cam_height: 350
+      cam_height: window.innerHeight*0.5
     })
   };
 
@@ -53,6 +56,8 @@ class Camera extends Component {
     };
 
     modelInstance.uploadPhoto(item);
+    //go back to the event view
+    this.props.history.goBack();
   };
 
   facingToggle = () => {
@@ -70,41 +75,45 @@ class Camera extends Component {
 
   render() {
     const videoConstraints = {
-      facingMode: "user"
+      facingMode: "user",
+      width: window.innerWidth,
+      height: window.innerHeight
     };
-    
-
-//    Philppa ska på ADD Dejt awww 2019-05-20
 
     let imageCanvas = <Webcam ref={this.setRef}/>;
     let capturedPic = <img src={this.state.imageData} alt=""/>;
-
     return (
       <div className="Camera">
         <NavBar title="Camera" prev={this.props.history}></NavBar>
+        <h2>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h2>
+        <h4>Photo Upload</h4>
         <div className="camera-container">
-        <div>
           <Webcam
             audio ={false}
             height={this.state.cam_height}
             ref={this.setRef}
             getScreenshot="image/jpeg"
-            width={350}
-            videoConstraints = {videoConstraints}
-          />
+            width={window.innerWidth*0.9}
+            videoConstraints = {videoConstraints}/>
           {this.state.imageData ?
             <div>
-              <img src={this.state.imageData} alt=""/>
+              <img src={this.state.imageData} alt="" width={window.innerWidth*0.9}/>
             </div>
             : null}
-        </div>
-
-
           <div className="btn-container">
-            <button id="captureBtn" onClick={this.capture}>Capture photo</button>
-            <button id="deleteBtn" onClick={this.deletePhoto}>Delete photo</button>
-            <button id="uploadBtn" onClick={this.uploadPhoto}>Upload</button>
-            <button id="switch" onClick={this.facingToggle}>Switch camera</button>
+
+          {
+            this.state.imageData ?
+            <div>
+              <button id="deleteBtn" onClick={this.deletePhoto}>
+              <img src={cancelbutton} width="48px" alt="Delete"/>
+              </button>
+              <button id="uploadBtn" onClick={this.uploadPhoto}><img src={uploadbtn} width="40px" alt="Upload"/></button>
+            </div> :
+            <button id="captureBtn" onClick={this.capture}><img src={camerashutter} width="40px" alt="Capture"/></button>
+          }
+
+            {/*<button id="switch" onClick={this.facingToggle}>Switch Camera</button>*/}
           </div>
 
         </div>

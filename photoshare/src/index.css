@@ -1,25 +1,26 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 html {
-  background: linear-gradient(180deg, #356DFD 0%, #FC40E1 100%);
-  background: -moz-linear-gradient(top,  #356DFD 0%, #FC40E1 100%); /* FF3.6+ */
-  background: -webkit-linear-gradient(top,  #356DFD 0%, #FC40E1 100%); /* Chrome10+,Safari5.1+ */
-  background: linear-gradient(to bottom,  #356DFD 0%, #FC40E1 100%); /* W3C */
-
+  height: 100%;
+  margin: 0;
+  background-color: #FC40E1;
+  background: -moz-linear-gradient( #356DFD, #FC40E1) fixed;
+  background: -webkit-linear-gradient(#356DFD, #FC40E1) fixed;
+  background: linear-gradient(#356DFD, #FC40E1) fixed;
   background-repeat: no-repeat;
+  background-position: fixed;
   background-attachment: fixed;
-  min-height: 100%;
+  bottom: 0px;
 }
 
 body {
+  padding-top: 100px;
   font-family: 'Montserrat', sans-serif;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   color: #FFFFFF;
   text-align: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  padding-bottom: 30px;
+  bottom: 0px;
 }
 
 h1 {
