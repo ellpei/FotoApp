@@ -53,6 +53,7 @@ p {
 
 a {
   color: #FFFFFF;
+  outline: 0;
 }
 
 a:hover {
@@ -68,11 +69,13 @@ a:hover {
   font-size: 0.9em;
   padding: 2px 10px 2px 10px;
   float: right;
+  outline: 0;
 }
 
 .btn {
   color: #FFFFFF;
   font-weight: 900;
+  outline: 0;
 }
 
 .btn-rounded {
@@ -83,6 +86,7 @@ a:hover {
   border-style: solid;
   border-width: 2px;
   padding: 7px 40px 7px 40px;
+  outline: 0;
 }
 
 .horizontal-line {
