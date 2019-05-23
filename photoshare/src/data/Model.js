@@ -229,12 +229,12 @@ class Model extends ObservableModel {
 
 
 
-  itIsWorthTesting(){
+  itIsWorthTesting(model){
     var promises = [];
     var URL = [];
     var eventName = [];
     var keys = [];
-
+    
     promises.push(firebase.database().ref("users/" + this.getUserID() + "/attendedEvents").once("value"));
     Promise.all(promises).then(function(data){
       for(var key in data[0].val()){
@@ -243,32 +243,37 @@ class Model extends ObservableModel {
         keys.push(key);
         promises2.push(firebase.database().ref("events/" + key + "/pictures").once("value"));
         var keysCount = 0;
-        Promise.all(promises2).then(function(data2) {  
+        Promise.all(promises2).then(function(data2) {
+
           for (var pic in data2[0].val()){
             const ref = firebase.storage().ref(keys[keysCount] + "/");
             var refPic = ref.child(data2[0].child(pic).val());
-            
-            refPic.getDownloadURL().then(function(url) {
-              URL.push(url);
-              console.log(url);
-            })
+            var promises3 = [];
 
-            keysCount = keysCount + 1;
-            break; 
+            promises3.push(refPic.getDownloadURL());
+
+            keysCount = keysCount + 1; 
+
+            break;
           }
-        })
+
+          Promise.all(promises3).then(function(dataURL) {
+            console.log(dataURL[0]);
+            URL.push(dataURL[0]);
+            model._URL.push(dataURL[0]);
+            console.log(URL[0]);
+          })
+
+
+        });
       }
 
-
-    /* ########################################################
-      HÄR VILL VI SPARA URL OCH eventName I en variable i moddellen
-      så att man kan hämta den från PastEvents.js 
-       ########################################################    */
-
-      console.log(URL);
-
-      return URL;
-
+      model._URL = URL;
+      model._NAME = eventName;
+      console.log(model._URL);
+      console.log(model._NAME);
+      
+      model.notifyObservers();
     });
   }
 
