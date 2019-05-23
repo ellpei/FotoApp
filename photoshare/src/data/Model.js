@@ -9,8 +9,14 @@ class Model extends ObservableModel {
     this._currentEventID = "-LfJzJAnjczbdDpQJAxs";
     this._userID = "LevyD6ImWkKD6yALlcs";
 
-    this._URL = null;
+    this._URL = [];
     this._NAME = null;
+    this._KEYS = null;
+    this._EVENT_PICTURE_URL = null;
+    this._EVENT_PICTURE_NAME = null;
+    this._CURRENT_EVENT_NAME = null;
+    this._CURRENT_EVENT_KEY = null;
+    this._PHOTO_VIEW_PICTURE = null;
 
 
     this.state = {
@@ -56,6 +62,35 @@ class Model extends ObservableModel {
   setName(name){
     this._NAME = name;
   }
+
+  getKeys(){
+    return this._KEYS;
+  }
+
+  setKeys(keys){
+    this._KEYS = keys;
+  }
+
+  getPictureURLs(){
+    return this._EVENT_PICTURE_URL;
+  }
+
+  setPictureURLs(pictures){
+    this._EVENT_PICTURE_URL = pictures;
+  }
+
+  getCurrentEvent(){
+    return this._CURRENT_EVENT_NAME;
+  }
+
+  getPictureNames(){
+    return this._EVENT_PICTURE_NAME;
+  }
+
+  getPhotoViewPic(){
+    return this._PHOTO_VIEW_PICTURE;
+  }
+
 
   /*
   //gets all the events from the database
@@ -219,6 +254,52 @@ class Model extends ObservableModel {
     });
   }
 
+  getOnePicture(model, pictureKey){
+    console.log("_CURRENT_EVENT_KEY: " + model._CURRENT_EVENT_KEY);
+
+    const ref = firebase.storage().ref(model._CURRENT_EVENT_KEY + "/" + pictureKey);
+
+    ref.getDownloadURL().then(function(data) {
+      model._PHOTO_VIEW_PICTURE = data;
+      model.notifyObservers();
+    });
+  }
+
+  generatePictures(model, eventKey){
+    //console.log("generatePictures()" + eventKey);
+
+    var promises = [];
+    var pictures_URL = [];
+    var pictures_Name = [];
+    var eventName = null;
+    var promises3 = [];
+    model._CURRENT_EVENT_KEY = eventKey;
+    promises.push(firebase.database().ref("events/" + eventKey).once("value"));
+    Promise.all(promises).then(function(data) {
+      eventName = data[0].val().name;
+      model._CURRENT_EVENT_NAME = eventName;
+      for(var pic in data[0].child("pictures").val()){
+        pictures_Name.push(data[0].child("pictures").child(pic).val());
+        const ref = firebase.storage().ref(eventKey + "/");
+        var refPic = ref.child(data[0].child("pictures").child(pic).val());
+        promises3.push(refPic.getDownloadURL());
+      }
+
+      Promise.all(promises3).then(function(data4){
+        for(var i = 0 ; i < data4.length ; i++){
+          pictures_URL.push(data4[i]);
+          //console.log(data4[i]);
+        }
+        model._EVENT_PICTURE_URL = pictures_URL;
+        model._EVENT_PICTURE_NAME = pictures_Name;
+
+        model.notifyObservers();
+
+      });
+    });
+  }
+
+
   itIsWorthTesting(model){
     var promises = [];
     var URL = [];
@@ -234,28 +315,27 @@ class Model extends ObservableModel {
         promises2.push(firebase.database().ref("events/" + key + "/pictures").once("value"));
         var keysCount = 0;
         Promise.all(promises2).then(function(data2) {
-
+          var promises3 = [];
           for (var pic in data2[0].val()){
             const ref = firebase.storage().ref(keys[keysCount] + "/");
             var refPic = ref.child(data2[0].child(pic).val());
-            var promises3 = [];
-
+            //var promises3 = [];
             promises3.push(refPic.getDownloadURL());
-
             keysCount = keysCount + 1; 
-
             break;
           }
 
           Promise.all(promises3).then(function(dataURL) {
-            URL.push(dataURL[0]);
+            model._URL.push(dataURL[0]);
             model.notifyObservers();
           })
         });
       }
 
-      model._URL = URL;
+ //     model._URL = URL;
       model._NAME = eventName;
+      model._KEYS = keys;
+
     });
   }
 }

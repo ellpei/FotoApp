@@ -14,6 +14,7 @@ import SignUp from "./SignUp/SignUp";
 import About from "./About/About";
 
 import firebase from "./firebase.js";
+import PhotoView from "./PhotoView/PhotoView";
 
 class App extends Component {
   constructor(props) {
@@ -39,6 +40,8 @@ class App extends Component {
           <Route path="/PastEvents" component={PastEvents} />
           <Route path="/Camera" component={Camera} />
           <Route path="/About" component={About} />
+          <Route path="/PhotoView" component={PhotoView} />
+          
         </header>
       </div>
     );

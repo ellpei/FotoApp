@@ -10,12 +10,16 @@ class EventAlbum extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pictures: null,
+      picture_names: null,
+      eventName: null,
       status: "LOADING"
     };
   }
 
   componentDidMount() {
-  
+    modelInstance.addObserver(this);
+    this.getPictures();
   }
 
   componentWillUnmount(){
@@ -23,15 +27,30 @@ class EventAlbum extends Component {
   }
 
   update(){
+  
+    var picturesList = modelInstance.getPictureURLs();
+    var eventName = modelInstance.getCurrentEvent();
+    var pictureNames = modelInstance.getPictureNames();
+
     //if(message = "URLSET"){
       this.setState({
+        pictures: picturesList,
+        eventName: eventName,
+        picture_names: pictureNames,
         status: "LOADED"
       })
     //}
   }
 
-  render() {
 
+  getPictures(){
+    let eventID = window.location.href.split("/");
+    console.log(decodeURIComponent(eventID[4]));
+    modelInstance.generatePictures(modelInstance, decodeURIComponent(eventID[4]));
+  }
+
+
+  render() {
     let pictures = [];
 
     switch(this.state.status){
@@ -40,6 +59,16 @@ class EventAlbum extends Component {
         break;
 
       case "LOADED":
+        for(var i = 0 ; i < this.state.pictures.length ; i++){
+          //console.log(this.state.pictures[i]);
+          pictures.push(
+            <div key={this.state.pictures[i]} className="col-sm-4">
+              <Link to={"/PhotoView/" + this.state.picture_names[i]}>
+                <img id="eventWrapper" src={this.state.pictures[i]}></img>  
+              </Link>
+            </div>
+          )
+        }
         break;
 
       default:
@@ -50,9 +79,8 @@ class EventAlbum extends Component {
     return (
       <div className="EventAlbum">
         <NavBar title="EventAlbum" prev={this.props.history}></NavBar>
-        <h2>EventAlbum</h2>
-        {pictures}
-
+        <h2>{this.state.eventName}</h2>
+        <div className="row">{pictures}</div>
       </div>
     );
   }
