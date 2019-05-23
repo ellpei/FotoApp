@@ -12,6 +12,7 @@ import Camera from "./Camera/Camera";
 import PastEvents from "./PastEvents/PastEvents";
 import SignUp from "./SignUp/SignUp";
 import About from "./About/About";
+import Contact from "./Contact/Contact";
 
 import firebase from "./firebase.js";
 import PhotoView from "./PhotoView/PhotoView";
@@ -40,8 +41,8 @@ class App extends Component {
           <Route path="/PastEvents" component={PastEvents} />
           <Route path="/Camera" component={Camera} />
           <Route path="/About" component={About} />
-          <Route path="/PhotoView" component={PhotoView} />
-          
+          <Route path="/PhotoView" component={PhotoView} />          
+          <Route path="/Contact" component={Contact} />
         </header>
       </div>
     );

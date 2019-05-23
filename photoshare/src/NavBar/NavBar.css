@@ -1,28 +1,4 @@
 
-#menu-btn {
-  float: right;
-  padding: 20px 25px 0px 0px;
-
-}
-
-#back-btn-container {
-  float:left;
-  padding: 20px 0px 0px 20px;
-}
-
-#appname-container {
-  display: inline-block;
-  padding-top: 20px;
-  font-size: 24px;
-}
-
-#appname-container-left {
-  display: inline-block;
-  float:left;
-  padding-top: 20px;
-  font-size: 24px;
-}
-
 .NavBar {
   text-align: center;
   position: fixed;
@@ -30,34 +6,73 @@
   width: 100%;
 }
 
-#top-nav {
-  /*background-color: rgba(0,0,0, 0.3);*/
-  background-color: rgba(255,255,255, 0.3);
-  text-align: center;
-  padding-bottom: 20px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: inherit;
+#appname-container {
+  display: inline-block;
+  padding-top: 25px;
+  font-size: 24px;
+  padding-left: 17px;
 }
 
-#drop-down {
-  margin-top: 90px;
-  border-radius: 5px;
+#appname-container-left {
+  display: inline-block;
+  float:left;
+  padding-top: 25px;
+  font-size: 24px;
+  padding-left: 20px;
+}
+
+#back-btn-container {
+  float:left;
+  padding: 20px 0px 0px 20px;
+}
+
+#menu-btn {
+
   float: right;
+  padding: 15px 25px 0px 0px;
+
+}
+.closebtn {
+  float: right;
+  padding: 20px 25px 0px 0px;
+  outline: 0;
+}
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
   display: block;
-  background-color:rgba(255,255,255, 0.6);;
-  height: 50%;
-
+  transition: 0.3s;
+  outline: 0;
 }
 
-#drop-down a {
-  color: #00183f;
-  font-weight: 700;
+.sidenav a:hover {
+  color: #f1f1f1;
 }
 
-.link-container {
-  margin: 20px;
-  padding: 5px 15px 5px 15px;
-  border-radius: 20px;
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
 }
