@@ -308,34 +308,35 @@ class Model extends ObservableModel {
     
     promises.push(firebase.database().ref("users/" + this.getUserID() + "/attendedEvents").once("value"));
     Promise.all(promises).then(function(data){
+      var promises2 = [];
       for(var key in data[0].val()){
-        var promises2 = [];
         eventName.push(data[0].child(key).node_.value_);
         keys.push(key);
         promises2.push(firebase.database().ref("events/" + key + "/pictures").once("value"));
-        var keysCount = 0;
-        Promise.all(promises2).then(function(data2) {
-          var promises3 = [];
-          for (var pic in data2[0].val()){
-            const ref = firebase.storage().ref(keys[keysCount] + "/");
-            var refPic = ref.child(data2[0].child(pic).val());
-            //var promises3 = [];
+      }
+      
+      Promise.all(promises2).then(function(data2) {
+        var promises3 = [];
+        for (var p = 0 ; p < data2.length ; p++){
+          for (var pic in data2[p].val()){
+            const ref = firebase.storage().ref(keys[p] + "/");
+            var refPic = ref.child(data2[p].child(pic).val());
             promises3.push(refPic.getDownloadURL());
-            keysCount = keysCount + 1; 
             break;
           }
+        }
 
-          Promise.all(promises3).then(function(dataURL) {
-            model._URL.push(dataURL[0]);
-            model.notifyObservers();
-          })
-        });
-      }
+        Promise.all(promises3).then(function(dataURL) {
+          for(var p = 0 ; p < dataURL.length ; p++){
+            console.log(dataURL[p]);
+            model._URL.push(dataURL[p]);
+          }
+          model.notifyObservers();
+        })
+      });
 
- //     model._URL = URL;
       model._NAME = eventName;
       model._KEYS = keys;
-
     });
   }
 }
