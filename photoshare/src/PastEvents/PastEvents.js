@@ -14,6 +14,7 @@ class PastEvents extends Component {
       events: null,
       URL: null,
       eventName: null,
+      keys: null,
       status: "LOADING"
     };
   }
@@ -29,11 +30,13 @@ class PastEvents extends Component {
 
   update(){
     //if(message = "URLSET"){
-      var url = modelInstance._URL;
+      var url = modelInstance.getURL();
+      var keys = modelInstance.getKeys();
       var eventName = modelInstance.getName();
       this.setState({
         URL: url,
         eventName: eventName,
+        keys: keys,
         status: "LOADED"
       })
     //}
@@ -55,8 +58,8 @@ class PastEvents extends Component {
       case "LOADED":
         for(var i = 0 ; i < this.state.eventName.length ; i++){
           eventList.push(
-            <div key={this.state.eventName[i]} className="col">
-              <Link to={"/EventAlbum/" + this.state.eventName[i]}>
+            <div key={this.state.eventName[i]} className="col-sm-6">
+              <Link to={"/EventAlbum/" + this.state.keys[i]}>
                 <img id="eventWrapper" src={this.state.URL[i]}></img>
                 <p>{this.state.eventName[i]}</p>
               </Link>
