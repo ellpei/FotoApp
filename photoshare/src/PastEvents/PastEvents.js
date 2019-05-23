@@ -35,10 +35,6 @@ class PastEvents extends Component {
         eventName: eventName,
         status: "LOADED"
       })
-
-      console.log(this.state.URL[0]);
-      console.log(this.state.eventName);
-
     //}
   }
 
@@ -57,17 +53,10 @@ class PastEvents extends Component {
 
       case "LOADED":
         for(var i = 0 ; i < this.state.eventName.length ; i++){
-
-          console.log(this.state.URL);
-          console.log(this.state.eventName[0]);
-
-
           eventList.push(
             <div key={this.state.eventName[i]} className="col-sm-6">
-
-
               <Link to={"/EventAlbum/" + this.state.eventName[i]}>
-                <img id="eventWrapper" src="https://firebasestorage.googleapis.com/v0/b/photoshare-dm2518.appspot.com/o/-LfK-jLihg83U0iG-Vyy%2F-LevyD6ImWkKD6yALlcs%23%23%231558517519017?alt=media&token=717fbc19-15b5-484d-94b8-e0f4d2154b1f"></img>
+                <img id="eventWrapper" src={this.state.URL[i]}></img>
                 <p>{this.state.eventName[i]}</p>
               </Link>
             </div>

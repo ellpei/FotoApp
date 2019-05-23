@@ -204,9 +204,6 @@ class Model extends ObservableModel {
     eventsRef.push(state.userID + "###" + item.time);
   }
 
-
-
-
   getUsersEvents(){
     const userEvents = firebase.database().ref("users/" + this.getUserID() + "/attendedEvents");
 
@@ -223,11 +220,6 @@ class Model extends ObservableModel {
       console.log(data.val());
     });
   }
-
-
-
-
-
 
   itIsWorthTesting(model){
     var promises = [];
@@ -258,35 +250,16 @@ class Model extends ObservableModel {
           }
 
           Promise.all(promises3).then(function(dataURL) {
-            console.log(dataURL[0]);
             URL.push(dataURL[0]);
-            model._URL.push(dataURL[0]);
-            console.log(URL[0]);
+            model.notifyObservers();
           })
-
-
         });
       }
 
       model._URL = URL;
       model._NAME = eventName;
-      console.log(model._URL);
-      console.log(model._NAME);
-      
-      model.notifyObservers();
     });
   }
-
-
-
-  ja(){
-
-    var tupple = this.itIsWorthTesting();
-    console.log(tupple[0]);
-
-  }
-  
-
 }
 
 const modelInstance = new Model();
