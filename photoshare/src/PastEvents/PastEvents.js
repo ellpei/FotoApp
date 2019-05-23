@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "./PastEvents.css";
 import NavBar from "../NavBar/NavBar.js";
 import 'bootstrap/dist/css/bootstrap.css';
+import "./PastEvents.css";
+
 import firebase from '../firebase.js';
 import modelInstance from '../data/Model.js';
 
@@ -54,7 +55,7 @@ class PastEvents extends Component {
       case "LOADED":
         for(var i = 0 ; i < this.state.eventName.length ; i++){
           eventList.push(
-            <div key={this.state.eventName[i]} className="col-sm-6">
+            <div key={this.state.eventName[i]} className="col">
               <Link to={"/EventAlbum/" + this.state.eventName[i]}>
                 <img id="eventWrapper" src={this.state.URL[i]}></img>
                 <p>{this.state.eventName[i]}</p>
@@ -74,11 +75,15 @@ class PastEvents extends Component {
       <div className="PastEvents">
         <NavBar title="PastEvents" prev={this.props.history}></NavBar>
         <h2>Past Events</h2>
-
+        <div className="textbox">
+        <p>
+        <br/>
+        {eventList.length !== 0 ? "Below are the events you have attended. Please note that events will be removed 2 weeks after the starting date so please download the photos you desire to keep before then."
+        : "You have not attended any events. We strongly advise you to get out there and attend more events, we promise it's fun!"} <br/><br/></p></div>
         <div className="row">
           {eventList}
         </div>
-          
+
       </div>
     );
   }
