@@ -3,9 +3,66 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import "../index.css";
 import "./LogIn.css";
-import "../data/Model.js"
+import "../data/Model.js";
+import modelInstance from '../data/Model.js';
+import { Redirect } from 'react-router'
+
 
 class LogIn extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      submitted: false,
+      authenticated: false
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    modelInstance.addObserver(this);
+  }
+
+  componentWillUnmount(){
+    modelInstance.removeObserver(this);
+  }
+
+  update() {
+
+    if(modelInstance.getAuthStatus() === true) {
+      this.setState({
+        authenticated: true
+      });
+      this.goToHome();
+    }
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const name = target.name;
+    this.setState({
+      [name]: target.value
+    });
+  }
+
+  goToHome = () => {
+    this.props.history.push('/Home');
+  }
+
+  handleSubmit(event) {
+
+    modelInstance.authenticateUser(this.state.username, this.state.password, modelInstance);
+
+    this.setState({
+      submitted: true
+    });
+
+    event.preventDefault();
+  }
 
   render() {
 
@@ -16,15 +73,20 @@ class LogIn extends Component {
           <div id="leftalign">
             <p> Capture the moment with our revolutionizing event-based photo sharing platform.</p>
           </div>
-          <br/>
-          <input type="username" placeholder="Username" name="username" required></input><br/>
-          <input type="password" placeholder="Password" name="psw" required></input>
-          <br/>
-          <br/>
-          <Link to="/Home">
-            <button type="button" className="btn">Log In</button>
-          </Link>
+        
           <br/><br/>
+          <form onSubmit={this.handleSubmit}>
+          <input name="username" type="text" placeholder= "Username" value={this.state.username} onChange={this.handleChange} required/>
+          <input name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
+          {this.state.submitted === true && this.state.authenticated !== true ? <p>Invalid username or password. Please try again.</p> : null }
+
+          <div id="submit-container">
+            {this.state.authenticated === true ? <Redirect to="Home"/> : null}
+              <button type="submit" className="btn">Log In</button>
+          </div>
+        </form>
+        <br/>
+        <br/>
           <Link to="/SignUp">
             Don't have an account? Sign up
           </Link>
