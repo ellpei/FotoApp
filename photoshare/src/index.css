@@ -1,19 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
+
 html {
   max-height: 100%;
   margin: 0;
-  background-color: #FC40E1;
-  background: -moz-linear-gradient( #356DFD, #FC40E1) fixed;
-  background: -webkit-linear-gradient(#356DFD, #FC40E1) fixed;
-  background: linear-gradient(#356DFD, #FC40E1) fixed;
-  background-repeat: no-repeat;
-  background-position: fixed;
-  background-attachment: fixed;
   bottom: 0px;
 }
 
 body {
+  background-color: #303964 !important;
   padding-top: 100px;
   font-family: 'Montserrat', sans-serif;
   width: 100%;
