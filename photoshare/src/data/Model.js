@@ -62,6 +62,10 @@ class Model extends ObservableModel {
     return this._userID;
   }
 
+  setUserID(uID) {
+    return this._userID = uID;
+  }
+
   getEventID() {
     return this.state.currentEventID;
   }
