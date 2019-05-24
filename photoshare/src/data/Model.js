@@ -6,7 +6,7 @@ class Model extends ObservableModel {
   constructor() {
     super();
     this._dummy = 4;
-    this._userID = "LevyD6ImWkKD6yALlcs";
+    this._userID = "";
     this._userAuthenticated = false;
     this._URL = [];
     this._EVENTNAMES = null;
