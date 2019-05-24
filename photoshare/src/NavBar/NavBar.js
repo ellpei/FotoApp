@@ -49,6 +49,10 @@ class NavBar extends Component {
     });
   }
 
+  logOut = () => {
+    alert("Are you sure you want to log out?")
+  }
+
 
   render() {
 
@@ -64,6 +68,7 @@ class NavBar extends Component {
         <Link to="/Home">Home</Link><br/>
         <Link to="/About">About</Link><br/>
         <Link to="/Contact">Contact</Link><br/>
+        <Link to="/">Log out</Link>
       </div>
       <div id="back-btn-container">{backbtn}</div>
 
@@ -80,7 +85,7 @@ class NavBar extends Component {
           </div>)}
 
       {this.state.menuVisible ?
-        <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}><img src={closeimg} alt="Close" width="30px"/></a>
+        <div href="javascript:void(0)" className="closebtn" onClick={this.closeNav}><img src={closeimg} alt="Close" width="30px"/></div>
         : <div id="menu-btn" onClick={this.openNav}><img src={menuimg} alt="Menu" width="30px"/></div>}
       </div>
     );

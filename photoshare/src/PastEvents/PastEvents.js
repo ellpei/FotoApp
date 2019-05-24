@@ -32,7 +32,7 @@ class PastEvents extends Component {
     //if(message = "URLSET"){
       var url = modelInstance.getURL();
       var keys = modelInstance.getKeys();
-      var eventName = modelInstance.getName();
+      var eventName = modelInstance.getPastEventNames();
       this.setState({
         URL: url,
         eventName: eventName,

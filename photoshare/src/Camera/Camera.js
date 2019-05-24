@@ -17,7 +17,7 @@ class Camera extends Component {
     image_by: null,
     cam_height: window.innerHeight*0.5,
     facing: "user",
-    currentEventObject: modelInstance.state.currentEventObject
+    currentEventObject: modelInstance._CURRENT_EVENT_OBJECT
   }
 
   setRef = webcam => {

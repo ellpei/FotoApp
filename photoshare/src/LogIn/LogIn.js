@@ -16,7 +16,8 @@ class LogIn extends Component {
       username: '',
       password: '',
       submitted: false,
-      authenticated: false
+      authenticated: false,
+      tried: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,6 +39,10 @@ class LogIn extends Component {
         authenticated: true
       });
       this.goToHome();
+    } else {
+      this.setState({
+        tried: true
+      })
     }
   }
 
@@ -58,7 +63,8 @@ class LogIn extends Component {
     modelInstance.authenticateUser(this.state.username, this.state.password, modelInstance);
 
     this.setState({
-      submitted: true
+      submitted: true,
+      tried: true
     });
 
     event.preventDefault();
@@ -73,12 +79,12 @@ class LogIn extends Component {
           <div id="leftalign">
             <p> Capture the moment with our revolutionizing event-based photo sharing platform.</p>
           </div>
-        
+
           <br/><br/>
           <form onSubmit={this.handleSubmit}>
           <input name="username" type="text" placeholder= "Username" value={this.state.username} onChange={this.handleChange} required/>
           <input name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
-          {this.state.submitted === true && this.state.authenticated !== true ? <p>Invalid username or password. Please try again.</p> : null }
+          {this.state.submitted === true && this.state.tried === true ? <p>Invalid username or password. Please try again.</p> : null }
 
           <div id="submit-container">
             {this.state.authenticated === true ? <Redirect to="Home"/> : null}
