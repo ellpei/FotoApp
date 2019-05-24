@@ -27,7 +27,7 @@ class EventAlbum extends Component {
   }
 
   update(){
-  
+
     var picturesList = modelInstance.getPictureURLs();
     var eventName = modelInstance.getCurrentEvent();
     var pictureNames = modelInstance.getPictureNames();
@@ -64,7 +64,7 @@ class EventAlbum extends Component {
           pictures.push(
             <div key={this.state.pictures[i]} className="col-sm-4">
               <Link to={"/PhotoView/" + this.state.picture_names[i]}>
-                <img id="eventWrapper" src={this.state.pictures[i]}></img>  
+                <img id="eventWrapper" src={this.state.pictures[i]} alt={"Image " + i}></img>  
               </Link>
             </div>
           )

@@ -22,7 +22,7 @@ class LogIn extends Component {
           <br/>
           <br/>
           <Link to="/Home">
-            <button type="button" class="btn">Log In</button>
+            <button type="button" className="btn">Log In</button>
           </Link>
           <br/>
           <br/>

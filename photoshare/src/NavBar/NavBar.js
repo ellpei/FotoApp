@@ -60,39 +60,7 @@ class NavBar extends Component {
 
     return (
       <div className="NavBar">
-
-      {/*
-      <div id="top-nav">
-
-
-        {this.props.title === "Home" ?
-          (<div id="appname-container-left">
-              <Link to="/Home">
-                <div id="appname">PhotoShare</div>
-              </Link>
-            </div>) :
-            (<div id="appname-container">
-              <Link to="/Home">
-                <div id="appname">PhotoShare</div>
-              </Link>
-            </div>)}
-
-        <div id="menu-btn" onClick={this.handleMenuClick}><img src={menuimg} alt="Menu"/></div>
-        </div>
-
-        <div class="link-container">
-          <Link to="/Home">Home</Link><br/>
-        </div>
-        <div class="link-container">
-          <Link to="/About">About</Link><br/>
-        </div>
-        <div class="link-container">
-          <Link to="/Help">Help</Link><br/>
-        </div>
-      */}
-
-      <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onClick={this.closeNav}>&times;</a>
+      <div id="mySidenav" className="sidenav">
         <Link to="/Home">Home</Link><br/>
         <Link to="/About">About</Link><br/>
         <Link to="/Contact">Contact</Link><br/>
@@ -112,7 +80,7 @@ class NavBar extends Component {
           </div>)}
 
       {this.state.menuVisible ?
-        <a href="javascript:void(0)" class="closebtn" onClick={this.closeNav}><img src={closeimg} alt="Close" width="30px"/></a>
+        <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}><img src={closeimg} alt="Close" width="30px"/></a>
         : <div id="menu-btn" onClick={this.openNav}><img src={menuimg} alt="Menu" width="30px"/></div>}
       </div>
     );

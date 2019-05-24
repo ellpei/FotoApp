@@ -139,7 +139,7 @@ class Model extends ObservableModel {
     this.state.currentEventObject = newEvent;
 
     if(navigator.geolocation) {
-      var currLocation = navigator.geolocation.getCurrentPosition(this.storeEvent);
+      navigator.geolocation.getCurrentPosition(this.storeEvent);
     } else {
       let coords = {
         latitude: 0,
@@ -305,7 +305,7 @@ class Model extends ObservableModel {
     var URL = [];
     var eventName = [];
     var keys = [];
-    
+
     promises.push(firebase.database().ref("users/" + this.getUserID() + "/attendedEvents").once("value"));
     Promise.all(promises).then(function(data){
       var promises2 = [];
@@ -314,7 +314,7 @@ class Model extends ObservableModel {
         keys.push(key);
         promises2.push(firebase.database().ref("events/" + key + "/pictures").once("value"));
       }
-      
+
       Promise.all(promises2).then(function(data2) {
         var promises3 = [];
         for (var p = 0 ; p < data2.length ; p++){
