@@ -5,22 +5,22 @@ class Model extends ObservableModel {
 
   constructor() {
     super();
-    this._dummy = 4;
     this._currentEventID = "-LfJzJAnjczbdDpQJAxs";
     this._userID = "LevyD6ImWkKD6yALlcs";
     this._userAuthenticated = false;
     this._URL = [];
     this._NAME = null;
     this._KEYS = null;
+
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
     this._CURRENT_EVENT_NAME = null;
     this._CURRENT_EVENT_ID = null;
     this._CURRENT_EVENT_KEY = null;
+    this._CURRENT_EVENT_DESCRIPTION = null;
+    this._CURRENT_EVENT_START_DATE = null;
+    this._CURRENT_EVENT_START_TIME = null;
     this._PHOTO_VIEW_PICTURE = null;
-
-
-
 
     this.state = {
       eventID: "-LfJzJAnjczbdDpQJAxs",
@@ -45,7 +45,6 @@ class Model extends ObservableModel {
       let userlist = snapshot.val();
       for(let user in userlist) {
         userID = user;
-        //console.log("this userID is: " + user + " name: " + userlist[user].username + " psw: " + userlist[user].password)
         if(userlist[user].username === username && userlist[user].password === psw) {
           model._userID = userID
           model._userAuthenticated = true;
@@ -125,6 +124,18 @@ class Model extends ObservableModel {
     return this._CURRENT_EVENT_ID;
   }
 
+  getCurrentEventDescription(){
+    return this._CURRENT_EVENT_DESCRIPTION;
+  }
+
+  getCurrentEventStartDate(){
+    return this._CURRENT_EVENT_START_DATE;
+  }
+
+  getCurrentEventStartTime(){
+    return this._CURRENT_EVENT_START_TIME;
+  }
+
   /*
   //gets all the events from the database
   getAllEvents() {
@@ -189,11 +200,14 @@ class Model extends ObservableModel {
     this.state.eventID =  eventID
   }
 
-  attendEvent = (eventID, eventName) => {
+  attendEvent = (eventID, eventName, eventDescription, eventStartDate, eventStartTime) => {
     this.state.eventID = eventID;
     this.state.eventName = eventName;
     this._CURRENT_EVENT_NAME = eventName;
     this._CURRENT_EVENT_ID = eventID;
+    this._CURRENT_EVENT_DESCRIPTION = eventDescription;
+    this._CURRENT_EVENT_START_DATE = eventStartDate;
+    this._CURRENT_EVENT_START_TIME = eventStartTime;
 
     this.getCurrentEventObject();
     this.addEventToUser(eventID);
@@ -260,7 +274,6 @@ class Model extends ObservableModel {
   }
 
   storePhoto(item, state) {
-    console.log("PHOTO IS BEING STORED AS WE SPEAK!");
     var path = "/" + state.eventID;
     var storageRef = firebase.storage().ref(path);
     var folderRef = storageRef.child(state.userID + "###" + item.time);
@@ -275,23 +288,17 @@ class Model extends ObservableModel {
   getUsersEvents(){
     const userEvents = firebase.database().ref("users/" + this.getUserID() + "/attendedEvents");
 
-    return userEvents.once("value", function(data) {
-      console.log(data.val());
-    });;
+    return userEvents.once("value", function(data) {});;
 
   }
 
   getCoverPhoto(eventID){
     const refDatabase = firebase.database().ref("events/" + eventID + "/pictures");
     // var firstPictureKey;
-     return refDatabase.once("value", function(data) {
-      console.log(data.val());
-    });
+     return refDatabase.once("value", function(data) {});
   }
 
   getOnePicture(model, pictureKey){
-    console.log("_CURRENT_EVENT_KEY: " + model._CURRENT_EVENT_KEY);
-
     const ref = firebase.storage().ref(model._CURRENT_EVENT_KEY + "/" + pictureKey);
 
     ref.getDownloadURL().then(function(data) {
@@ -301,8 +308,6 @@ class Model extends ObservableModel {
   }
 
   generatePictures(model, eventKey){
-    //console.log("generatePictures()" + eventKey);
-
     var promises = [];
     var pictures_URL = [];
     var pictures_Name = [];
@@ -312,7 +317,11 @@ class Model extends ObservableModel {
     promises.push(firebase.database().ref("events/" + eventKey).once("value"));
     Promise.all(promises).then(function(data) {
       eventName = data[0].val().name;
-      model._CURRENT_EVENT_NAME = eventName;
+      model._CURRENT_EVENT_NAME = data[0].val().name;
+      model._CURRENT_EVENT_DESCRIPTION = data[0].val().description;
+      model._CURRENT_EVENT_START_DATE = data[0].val().startDate;
+      model._CURRENT_EVENT_START_TIME = data[0].val().startTime;
+
       for(var pic in data[0].child("pictures").val()){
         pictures_Name.push(data[0].child("pictures").child(pic).val());
         const ref = firebase.storage().ref(eventKey + "/");
@@ -362,7 +371,6 @@ class Model extends ObservableModel {
 
         Promise.all(promises3).then(function(dataURL) {
           for(var p = 0 ; p < dataURL.length ; p++){
-            console.log(dataURL[p]);
             model._URL.push(dataURL[p]);
           }
           model.notifyObservers();
@@ -390,7 +398,6 @@ class Model extends ObservableModel {
       Promise.all(promises).then(function(data){
         for(var i = 0 ; i < data.length ; i++){
           pictures_URL.push(data[i]);
-          console.log(data[i]);
         }
         model._EVENT_PICTURE_URL = pictures_URL;
         model.notifyObservers();

@@ -13,6 +13,9 @@ class EventAlbum extends Component {
       pictures: null,
       picture_names: null,
       eventName: null,
+      eventDescription: null,
+      eventStartDate: null,
+      eventStartTime: null,
       status: "LOADING"
     };
   }
@@ -27,15 +30,20 @@ class EventAlbum extends Component {
   }
 
   update(){
-
     var picturesList = modelInstance.getPictureURLs();
     var eventName = modelInstance.getCurrentEvent();
     var pictureNames = modelInstance.getPictureNames();
+    var eventDescription = modelInstance.getCurrentEventDescription();
+    var eventStartDate = modelInstance.getCurrentEventStartDate();
+    var eventStartTime = modelInstance.getCurrentEventStartTime();
 
     //if(message = "URLSET"){
       this.setState({
         pictures: picturesList,
         eventName: eventName,
+        eventDescription: eventDescription,
+        eventStartDate: eventStartDate,
+        eventStartTime: eventStartTime,
         picture_names: pictureNames,
         status: "LOADED"
       })
@@ -52,6 +60,11 @@ class EventAlbum extends Component {
 
   render() {
     let pictures = [];
+    let albumInfo = null;
+    var asda = this.state.eventStartDate + " " + this.state.eventStartTime;
+    var test = new Date(asda).valueOf();
+    var endDateTimeMS = test + 1.21*Math.pow(10, 9);
+    var endDateString = new Date(endDateTimeMS).toLocaleString();
 
     switch(this.state.status){
       case "LOADING":
@@ -59,6 +72,13 @@ class EventAlbum extends Component {
         break;
 
       case "LOADED":
+
+          albumInfo = 
+            <div>
+              <h2>{this.state.eventName} Photo Album</h2>
+              <h3>Album will be deleted: {endDateString}</h3>
+            </div>
+
         for(var i = 0 ; i < this.state.pictures.length ; i++){
           //console.log(this.state.pictures[i]);
           pictures.push(
@@ -79,7 +99,7 @@ class EventAlbum extends Component {
     return (
       <div className="EventAlbum">
         <NavBar title="EventAlbum" prev={this.props.history}></NavBar>
-        <h2>{this.state.eventName}</h2>
+        {albumInfo}
         <div className="row">{pictures}</div>
       </div>
     );
