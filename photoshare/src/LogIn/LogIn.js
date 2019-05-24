@@ -24,9 +24,7 @@ class LogIn extends Component {
           <Link to="/Home">
             <button type="button" className="btn">Log In</button>
           </Link>
-          <br/>
-          <br/>
-          <br/>
+          <br/><br/>
           <Link to="/SignUp">
             Don't have an account? Sign up
           </Link>
