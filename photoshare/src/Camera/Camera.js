@@ -62,7 +62,7 @@ class Camera extends Component {
 
   facingToggle = () => {
     alert("switching camera")
-    if(this.state.facing == "user") {
+    if(this.state.facing === "user") {
       this.setState({
         facing: 'environment'
       })

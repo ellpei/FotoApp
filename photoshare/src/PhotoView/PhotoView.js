@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-
-import { Link } from "react-router-dom";
 import "../index.css";
 import "./PhotoView.css";
 import NavBar from "../NavBar/NavBar.js";
-import DisplayEvent from "../DisplayEvent/DisplayEvent.js";
 import modelInstance from '../data/Model.js';
-//import firebase from '../firebase.js';
-import * as firebase from 'firebase';
 
 class PhotoView extends Component {
 
@@ -73,9 +68,9 @@ class PhotoView extends Component {
             <h4>Event: {this.state.eventName}</h4>
             <h4>Taken Time: {this.state.takenTime}</h4>
           </div>
-        picture = 
+        picture =
           <div>
-            <img src={this.state.URL}></img>  
+            <img src={this.state.URL}></img>
           </div>
         break;
 

@@ -3,7 +3,6 @@ import "../index.css";
 import "./CreateEvent.css";
 import NavBar from "../NavBar/NavBar.js";
 import 'bootstrap/dist/css/bootstrap.css';
-import firebase from '../firebase.js';
 import modelInstance from '../data/Model.js';
 import { Redirect } from 'react-router'
 

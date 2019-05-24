@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import "../index.css";
 import "./About.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import NavBar from "../NavBar/NavBar.js";
-import modelInstance from '../data/Model.js'
 
 
 class About extends Component {

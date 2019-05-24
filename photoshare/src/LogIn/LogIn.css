@@ -1,9 +1,4 @@
-body {
-  background: inherit;
-  height: inherit;
-  width: inherit;
-  position:relative;
-}
+
 
 ::placeholder { /* Most modern browsers support this now. */
    color: #FFFFFF;
@@ -20,11 +15,11 @@ body {
 }
 
 #outer-box {
+  padding-top: 10%;
   width: 80%;
   height: 70%;
-  margin: auto;
-  text-align: center;
-  transform: translate(0%, 50%);
+  margin-left: 10%;
+  /*transform: translate(0%, 50%);*/
 }
 
 #leftalign {
@@ -34,21 +29,11 @@ h1 {
   text-align: left;
   padding-left: 5%;
   font-size: 2.6em;
-  padding-bottom: 0px;
+  padding-bottom: 5px;
 }
 p {
   padding-left: 5%;
 }
-
-body {
-  background-color: #6D5959;
-  margin-bottom: 20px;
-}
-
-body * {
-  font-family: 'Montserrat' sans-serif;
-}
-
 
 input {
   background: transparent;

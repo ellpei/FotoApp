@@ -14,6 +14,7 @@ class InsideEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pictures: null, 
       currentEventID: modelInstance.state.currentEventID,
       currentEventObject: modelInstance.state.currentEventObject
     };
@@ -31,15 +32,18 @@ class InsideEvent extends Component {
   }
 
   update(){
+
+    var picturesList = modelInstance.getPictureURLs();
     //if(message = "URLSET"){
       this.setState({
+        pictures: picturesList,
         status: "LOADED"
       })
     //}
   }
 
   getData(){
-    modelInstance.Carousel(modelInstance);
+    modelInstance.generatePictureCarousel(modelInstance);
   }
 
 
@@ -48,7 +52,7 @@ class InsideEvent extends Component {
   render() {
 
     let philippa = null;
-
+    let generateImageDiv = [];
 
     switch(this.state.status){
       case "LOADING":
@@ -56,26 +60,27 @@ class InsideEvent extends Component {
         break;
 
       case "LOADED":
-        //https://www.npmjs.com/package/react-responsive-carousel
+        //https://www.npmjs.com/package/react-responsive-carousel'
+
+        for(var i = 0 ; i < this.state.pictures.length ; i++){
+          generateImageDiv.push(
+            <div>
+                <img src={this.state.pictures[i]} alt={"Image " + i}></img>
+            </div>
+          )
+        }
+
         philippa = 
           <Carousel id= "carousel" 
             autoPlay = {true} 
             infiniteLoop = {true} 
-            width = {500}
             centerMode = {true}
+            showThumbs = {false}
+            showStatus = {false}
+            showArrows = {false}
+
             >
-            <div>
-                <img src="https://firebasestorage.googleapis.com/v0/b/photoshare-dm2518.appspot.com/o/-LfJzJAnjczbdDpQJAxs%2F-LevyD6ImWkKD6yALlcs%23%23%231558514181316?alt=media&token=3411e218-cad9-41f2-bb29-c12c74690470" />
-                <p className="legend">Legend 1</p>
-            </div>
-            <div>
-                <img src="https://firebasestorage.googleapis.com/v0/b/photoshare-dm2518.appspot.com/o/-LfJzJAnjczbdDpQJAxs%2F-LevyD6ImWkKD6yALlcs%23%23%231558514181316?alt=media&token=3411e218-cad9-41f2-bb29-c12c74690470" />
-                <p className="legend">Legend 2</p>
-            </div>
-            <div>
-                <img src="https://firebasestorage.googleapis.com/v0/b/photoshare-dm2518.appspot.com/o/-LfJzJAnjczbdDpQJAxs%2F-LevyD6ImWkKD6yALlcs%23%23%231558514181316?alt=media&token=3411e218-cad9-41f2-bb29-c12c74690470" />
-                <p className="legend">Legend 3</p>
-            </div>
+            {generateImageDiv}
           </Carousel>
         break;
 
@@ -87,13 +92,18 @@ class InsideEvent extends Component {
       <div className="InsideEvent">
         <NavBar title="InsideEvent" prev={this.props.history}></NavBar>
         <h2>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h2>
-        <Link to="./Camera">
-          <button className="camera-btn"><img src={camerashutter} alt="Upload" width="40px"/></button>
-        </Link>
-
-        <div>
+        <h2>{modelInstance.getCurrentEvent()}</h2>
+        <h2>{modelInstance.getCurrentEventID()}</h2>
+        <div id="carouselWrapper">
           {philippa}
         </div>
+
+        <div id="cameraWrapper">
+          <Link to="./Camera">
+            <img src={camerashutter} alt="Upload" width="40px"/>
+          </Link>
+        </div>
+       
 
 
       </div>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../index.css";
 import "./DisplayEvent.css";
-import NavBar from "../NavBar/NavBar.js";
 import 'bootstrap/dist/css/bootstrap.css';
 import modelInstance from '../data/Model.js';
 import * as firebase from 'firebase';

@@ -21,3 +21,32 @@
 #carousel{
   position: center;
 }
+
+#carouselWrapper{
+  margin-left: 10%;
+  margin-right: 10%;
+  text-align: center;
+}
+
+.carousel .slide{
+  background-color: Transparent !important;
+}
+
+.carousel.carousel-slider{
+  display: inline-block;
+}
+
+#cameraWrapper{
+  display: block;
+  text-align: center !important;
+  margin-top: 100px;
+}
+
+.camera-btn{
+  display: block;
+  margin: 0 auto;
+}
+
+.slide{
+  padding: 15px;
+}

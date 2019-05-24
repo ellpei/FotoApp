@@ -15,8 +15,11 @@ class Model extends ObservableModel {
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
     this._CURRENT_EVENT_NAME = null;
+    this._CURRENT_EVENT_ID = null;
     this._CURRENT_EVENT_KEY = null;
     this._PHOTO_VIEW_PICTURE = null;
+
+
 
 
     this.state = {
@@ -91,6 +94,9 @@ class Model extends ObservableModel {
     return this._PHOTO_VIEW_PICTURE;
   }
 
+  getCurrentEventID(){
+    return this._CURRENT_EVENT_ID;
+  }
 
   /*
   //gets all the events from the database
@@ -139,7 +145,7 @@ class Model extends ObservableModel {
     this.state.currentEventObject = newEvent;
 
     if(navigator.geolocation) {
-      var currLocation = navigator.geolocation.getCurrentPosition(this.storeEvent);
+      navigator.geolocation.getCurrentPosition(this.storeEvent);
     } else {
       let coords = {
         latitude: 0,
@@ -160,6 +166,9 @@ class Model extends ObservableModel {
   attendEvent = (eventID, eventName) => {
     this.state.eventID = eventID;
     this.state.eventName = eventName;
+    this._CURRENT_EVENT_NAME = eventName;
+    this._CURRENT_EVENT_ID = eventID;
+
     this.getCurrentEventObject();
     this.addEventToUser(eventID);
   }
@@ -304,7 +313,7 @@ class Model extends ObservableModel {
     var URL = [];
     var eventName = [];
     var keys = [];
-    
+
     promises.push(firebase.database().ref("users/" + this.getUserID() + "/attendedEvents").once("value"));
     Promise.all(promises).then(function(data){
       var promises2 = [];
@@ -313,7 +322,7 @@ class Model extends ObservableModel {
         keys.push(key);
         promises2.push(firebase.database().ref("events/" + key + "/pictures").once("value"));
       }
-      
+
       Promise.all(promises2).then(function(data2) {
         var promises3 = [];
         for (var p = 0 ; p < data2.length ; p++){
@@ -340,10 +349,28 @@ class Model extends ObservableModel {
   }
 
 
-  Carousel(model){
-    model.notifyObservers();
-  }
+  generatePictureCarousel(model){
+    firebase.database().ref("events/" + model._CURRENT_EVENT_ID).once("value").then(function(data) {
+      let promises = [];
+      let pictures_URL = []
 
+      for(var pic in data.child("pictures").val()){
+        //pictures_Name.push(data[0].child("pictures").child(pic).val());
+        const ref = firebase.storage().ref(model._CURRENT_EVENT_ID + "/");
+        var refPic = ref.child(data.child("pictures").child(pic).val());
+        promises.push(refPic.getDownloadURL());
+      }
+
+      Promise.all(promises).then(function(data){
+        for(var i = 0 ; i < data.length ; i++){
+          pictures_URL.push(data[i]);
+          console.log(data[i]);
+        }
+        model._EVENT_PICTURE_URL = pictures_URL;
+        model.notifyObservers();
+      });
+    });
+  }
 }
 
 const modelInstance = new Model();
