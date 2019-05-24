@@ -49,6 +49,10 @@ class NavBar extends Component {
     });
   }
 
+  logOut = () => {
+    alert("Are you sure you want to log out?")
+  }
+
 
   render() {
 
@@ -64,6 +68,7 @@ class NavBar extends Component {
         <Link to="/Home">Home</Link><br/>
         <Link to="/About">About</Link><br/>
         <Link to="/Contact">Contact</Link><br/>
+        <Link to="/">Log out</Link>
       </div>
       <div id="back-btn-container">{backbtn}</div>
 

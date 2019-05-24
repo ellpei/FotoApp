@@ -5,8 +5,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import NavBar from "../NavBar/NavBar.js";
 import modelInstance from '../data/Model.js';
 import camerashutter from './camerashutter.svg';
-
-
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 
@@ -14,7 +12,7 @@ class InsideEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pictures: null, 
+      pictures: null,
       currentEventID: modelInstance.state.currentEventID,
       currentEventObject: modelInstance.state.currentEventObject
     };
@@ -70,10 +68,10 @@ class InsideEvent extends Component {
           )
         }
 
-        philippa = 
-          <Carousel id= "carousel" 
-            autoPlay = {true} 
-            infiniteLoop = {true} 
+        philippa =
+          <Carousel id= "carousel"
+            autoPlay = {true}
+            infiniteLoop = {true}
             centerMode = {true}
             showThumbs = {false}
             showStatus = {false}
@@ -103,7 +101,7 @@ class InsideEvent extends Component {
             <img src={camerashutter} alt="Upload" width="40px"/>
           </Link>
         </div>
-       
+
 
 
       </div>
