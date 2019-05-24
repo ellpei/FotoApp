@@ -85,7 +85,7 @@ class NavBar extends Component {
           </div>)}
 
       {this.state.menuVisible ?
-        <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}><img src={closeimg} alt="Close" width="30px"/></a>
+        <div href="javascript:void(0)" className="closebtn" onClick={this.closeNav}><img src={closeimg} alt="Close" width="30px"/></div>
         : <div id="menu-btn" onClick={this.openNav}><img src={menuimg} alt="Menu" width="30px"/></div>}
       </div>
     );

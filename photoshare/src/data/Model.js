@@ -6,11 +6,10 @@ class Model extends ObservableModel {
   constructor() {
     super();
     this._dummy = 4;
-    this._currentEventID = "-LfJzJAnjczbdDpQJAxs";
     this._userID = "LevyD6ImWkKD6yALlcs";
     this._userAuthenticated = false;
     this._URL = [];
-    this._NAME = null;
+    this._EVENTNAMES = null;
     this._KEYS = null;
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
@@ -18,17 +17,7 @@ class Model extends ObservableModel {
     this._CURRENT_EVENT_ID = null;
     this._CURRENT_EVENT_KEY = null;
     this._PHOTO_VIEW_PICTURE = null;
-
-
-
-
-    this.state = {
-      eventID: "-LfJzJAnjczbdDpQJAxs",
-      currentEventObject: null,  //current event object
-      currEvent: null,
-      storageRef: null,
-      eventName: ""
-    }
+    this._CURRENT_EVENT_OBJECT = null;
 
     this.addEventToUser = this.addEventToUser.bind(this);
   }
@@ -70,11 +59,11 @@ class Model extends ObservableModel {
   }
 
   getEventID() {
-    return this.state.currentEventID;
+    return this._CURRENT_EVENT_ID;
   }
 
   setEventID(eventID) {
-    this.state.setCurrentEvent = eventID;
+    this._CURRENT_EVENT_ID = eventID;
   }
 
   getURL(){
@@ -85,12 +74,12 @@ class Model extends ObservableModel {
     this._URL = url;
   }
 
-  getName(){
-    return this._NAME;
+  getPastEventNames(){
+    return this._EVENTNAMES;
   }
 
-  setName(name){
-    this._NAME = name;
+  setPastEventNames(names){
+    this._EVENTNAMES = names;
   }
 
   getKeys(){
@@ -125,26 +114,14 @@ class Model extends ObservableModel {
     return this._CURRENT_EVENT_ID;
   }
 
-  /*
-  //gets all the events from the database
-  getAllEvents() {
-    var eventsRef = firebase.database.ref('events/');
-    var eventList;
-    eventsRef.orderByValue().on("startTime", function(snapshot) {
-      snapshot.forEach(function(data) {
-        console.log("The data key:" + data.key + " value: " + data.val());
-        eventList.push(data.val())
-      })
-  */
-
   //must be called if you enter an event through "AttendEvent"
   getCurrentEventObject() {
-    const eventsRef = firebase.database().ref('events/' + this.state.currentEventID);
+    const eventsRef = firebase.database().ref('events/' + this._CURRENT_EVENT_ID);
     eventsRef.on("value", (snapshot) => {
       let item = snapshot.val();
-      this.state.currentEventObject = item;
+      this._CURRENT_EVENT_OBJECT = item;
     });
-    return this.state.currentEventObject;
+    return this._CURRENT_EVENT_OBJECT;
   }
 
   //callback to store event. Receives currlocation
@@ -152,16 +129,16 @@ class Model extends ObservableModel {
 
     const eventsRef = firebase.database().ref('events');
 
-    this.state.currentEventObject["latitude"] = pos.coords.latitude;
-    this.state.currentEventObject["longitude"] = pos.coords.longitude;
-    this.state.currentEventObject["admin"] = this._userID;
+    this._CURRENT_EVENT_OBJECT["latitude"] = pos.coords.latitude;
+    this._CURRENT_EVENT_OBJECT["longitude"] = pos.coords.longitude;
+    this._CURRENT_EVENT_OBJECT["admin"] = this._userID;
 
-    var newEventRef = eventsRef.push(this.state.currentEventObject);
+    var newEventRef = eventsRef.push(this._CURRENT_EVENT_OBJECT);
     var eventID = newEventRef.key;
 
     //add this new event ID to the past event list in this user
     this.addEventToUser(eventID);
-    this.state.currentEventID = eventID;
+    this._CURRENT_EVENT_ID = eventID;
     //create an event folder in Firestore
     var storageRef = firebase.storage().ref();
     var newFolderRef = storageRef.child(eventID + '/images');   //the folder for each event is named after the eventID
@@ -169,7 +146,7 @@ class Model extends ObservableModel {
   }
 
   createEvent(newEvent) {
-    this.state.currentEventObject = newEvent;
+    this._CURRENT_EVENT_OBJECT = newEvent;
 
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.storeEvent);
@@ -184,14 +161,14 @@ class Model extends ObservableModel {
 
   addEventToUser = (eventID) => {
     var userRef = firebase.database().ref('users/' + this._userID);
-    userRef.child("attendedEvents").child(eventID).set(this.state.eventName);
+    userRef.child("attendedEvents").child(eventID).set(this._CURRENT_EVENT_NAME);
 
-    this.state.eventID =  eventID
+    this._CURRENT_EVENT_ID =  eventID
   }
 
   attendEvent = (eventID, eventName) => {
-    this.state.eventID = eventID;
-    this.state.eventName = eventName;
+    this._CURRENT_EVENT_ID = eventID;
+    this._CURRENT_EVENT_NAME = eventName;
     this._CURRENT_EVENT_NAME = eventName;
     this._CURRENT_EVENT_ID = eventID;
 
@@ -369,7 +346,7 @@ class Model extends ObservableModel {
         })
       });
 
-      model._NAME = eventName;
+      model._EVENTNAMES = eventName;
       model._KEYS = keys;
     });
   }

@@ -13,8 +13,8 @@ class InsideEvent extends Component {
     super(props);
     this.state = {
       pictures: null,
-      currentEventID: modelInstance.state.currentEventID,
-      currentEventObject: modelInstance.state.currentEventObject
+      currentEventID: modelInstance.getCurrentEventID(),
+      currentEventObject: modelInstance.getCurrentEventObject()
     };
   }
 
@@ -62,8 +62,8 @@ class InsideEvent extends Component {
 
         for(var i = 0 ; i < this.state.pictures.length ; i++){
           generateImageDiv.push(
-            <div>
-                <img src={this.state.pictures[i]} alt={"Image " + i}></img>
+            <div key="i">
+                <img  src={this.state.pictures[i]} alt={"Image " + i}></img>
             </div>
           )
         }
