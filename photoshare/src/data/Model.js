@@ -299,7 +299,6 @@ class Model extends ObservableModel {
     });
   }
 
-
   itIsWorthTesting(model){
     var promises = [];
     var URL = [];
@@ -339,6 +338,12 @@ class Model extends ObservableModel {
       model._KEYS = keys;
     });
   }
+
+
+  Carousel(model){
+    model.notifyObservers();
+  }
+
 }
 
 const modelInstance = new Model();
