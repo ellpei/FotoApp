@@ -91,19 +91,18 @@ class InsideEvent extends Component {
         <NavBar title="InsideEvent" prev={this.props.history}></NavBar>
         <h2>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h2>
         <h2>{modelInstance.getCurrentEvent()}</h2>
-        <h2>{modelInstance.getCurrentEventID()}</h2>
         <div id="carouselWrapper">
           {philippa}
         </div>
+
+        <h2>Start: {modelInstance.getCurrentEventStartDate()} {modelInstance.getCurrentEventStartTime()}</h2>
+        <h2>Description: {modelInstance.getCurrentEventDescription()}</h2>
 
         <div id="cameraWrapper">
           <Link to="./Camera">
             <img src={camerashutter} alt="Upload" width="40px"/>
           </Link>
         </div>
-
-
-
       </div>
     );
   }
