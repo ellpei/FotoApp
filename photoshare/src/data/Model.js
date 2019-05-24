@@ -21,6 +21,7 @@ class Model extends ObservableModel {
     this._CURRENT_EVENT_START_DATE = null;
     this._CURRENT_EVENT_START_TIME = null;
     this._PHOTO_VIEW_PICTURE = null;
+    this._PHOTO_VIEW_TAKEN_BY = null;
     this._CURRENT_EVENT_OBJECT = null;
 
     this.addEventToUser = this.addEventToUser.bind(this);
@@ -111,6 +112,10 @@ class Model extends ObservableModel {
 
   getPhotoViewPic(){
     return this._PHOTO_VIEW_PICTURE;
+  }
+
+  getPhotoViewTakenBy(){
+    return this._PHOTO_VIEW_TAKEN_BY;
   }
 
   getCurrentEventID(){
@@ -250,7 +255,6 @@ class Model extends ObservableModel {
     this.authenticateLocation(item, this.storePhoto, this);
   }
 
-
   storePhoto(item, model) {
     var path = "/" + model._CURRENT_EVENT_ID;
     var storageRef = firebase.storage().ref(path);
@@ -277,10 +281,23 @@ class Model extends ObservableModel {
   }
 
   getOnePicture(model, pictureKey){
-    const ref = firebase.storage().ref(model._CURRENT_EVENT_KEY + "/" + pictureKey);
 
-    ref.getDownloadURL().then(function(data) {
-      model._PHOTO_VIEW_PICTURE = data;
+    var userID = pictureKey.split("###")[0]
+
+    const ref1 = firebase.storage().ref(model._CURRENT_EVENT_KEY + "/" + pictureKey);
+    const ref2 = firebase.database().ref("users/" + userID);
+
+    //promises.push(firebase.database().ref("users/" + this.getUserID() + "/attendedEvents").once("value"));
+
+    var promises = [];
+
+    console.log(model._CURRENT_EVENT_KEY);
+    promises.push(ref1.getDownloadURL());
+    promises.push(ref2.once("value"));
+    
+    Promise.all(promises).then(function(data){
+      model._PHOTO_VIEW_PICTURE = data[0];
+      model._PHOTO_VIEW_TAKEN_BY = data[1].val().username;
       model.notifyObservers();
     });
   }
