@@ -194,7 +194,7 @@ class Model extends ObservableModel {
   }
 
   /*Called before uploading photo. The user must be within the event radius*/
-  authenticateLocation(item, _callback, state) {
+  authenticateLocation(item, _callback, model) {
     const eventsRef = firebase.database().ref("events/-LfJzJAnjczbdDpQJAxs"); // + this.state.currEventID);
     var eventLongitude;
     var eventLatitude;
@@ -220,8 +220,8 @@ class Model extends ObservableModel {
         var d = (R * c) * 1000;
 
         //TODO change this the other way
-        if(d > radius){
-          _callback(item, state);
+        if(d < radius){
+          _callback(item, model);
         } else{
           console.log("THIS IS NOT OKAY");
         }
@@ -233,20 +233,20 @@ class Model extends ObservableModel {
   }
 
   uploadPhoto(item) {
-    this.authenticateLocation(item, this.storePhoto, this.state);
+    this.authenticateLocation(item, this.storePhoto, this);
   }
 
-  storePhoto(item, state) {
+  storePhoto(item, model) {
     console.log("PHOTO IS BEING STORED AS WE SPEAK!");
-    var path = "/" + state.eventID;
+    var path = "/" + model._CURRENT_EVENT_ID;
     var storageRef = firebase.storage().ref(path);
-    var folderRef = storageRef.child(state.userID + "###" + item.time);
+    var folderRef = storageRef.child(model._userID + "###" + item.time);
     var image64 = item.image;
     var data = image64.replace(/^data:image\/\w+;base64,/, "");
     folderRef.putString(data, 'base64', {contentType: 'image/jpg'});
 
-    const eventsRef = firebase.database().ref("events/" + state.eventID + "/pictures/");
-    eventsRef.push(state.userID + "###" + item.time);
+    const eventsRef = firebase.database().ref("events/" + model._CURRENT_EVENT_ID + "/pictures/");
+    eventsRef.push(model._userID + "###" + item.time);
   }
 
   getUsersEvents(){
