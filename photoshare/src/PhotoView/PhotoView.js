@@ -11,6 +11,9 @@ class PhotoView extends Component {
 
     this.state = {
       URL: null,
+      takenTime: null,
+      takenBy: null,
+      eventName: null,
       status: "LOADING"
     };
   }
@@ -27,10 +30,14 @@ class PhotoView extends Component {
 
   update(){
     var url = modelInstance.getPhotoViewPic();
-    console.log(url);
+    var eventName = modelInstance.getCurrentEvent();
+    var takenTime = new Date(parseInt(window.location.href.split("###")[1])).toLocaleString();
+
     //if(message = "URLSET"){
       this.setState({
         URL: url,
+        takenTime: takenTime,
+        eventName: eventName,
         status: "LOADED"
       })
     //}
@@ -47,6 +54,7 @@ class PhotoView extends Component {
   render() {
 
     let picture = null;
+    let pictureInfo = null;
 
     switch(this.state.status){
       case "LOADING":
@@ -54,6 +62,12 @@ class PhotoView extends Component {
         break;
 
       case "LOADED":
+        pictureInfo = 
+          <div>
+            <h4>Taken By: Admin</h4>
+            <h4>Event: {this.state.eventName}</h4>
+            <h4>Taken Time: {this.state.takenTime}</h4>
+          </div>
         picture =
           <div>
             <img src={this.state.URL}></img>
@@ -69,10 +83,13 @@ class PhotoView extends Component {
 
     return (
       <div className="PhotoView">
-        <NavBar title="Attend" prev={this.props.history}></NavBar>
+        <NavBar title="PhotoView" prev={this.props.history}></NavBar>
         <h2>Photo View</h2>
         <div>
           {picture}
+        </div>
+        <div>
+          {pictureInfo}
         </div>
 
 

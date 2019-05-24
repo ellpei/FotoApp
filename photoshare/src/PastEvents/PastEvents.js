@@ -47,7 +47,6 @@ class PastEvents extends Component {
   }
 
   render() {
-
     let eventList = [];
 
     switch(this.state.status){
