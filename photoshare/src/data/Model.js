@@ -8,7 +8,7 @@ class Model extends ObservableModel {
     this._dummy = 4;
     this._currentEventID = "-LfJzJAnjczbdDpQJAxs";
     this._userID = "LevyD6ImWkKD6yALlcs";
-
+    this._userAuthenticated = false;
     this._URL = [];
     this._NAME = null;
     this._KEYS = null;
@@ -20,7 +20,6 @@ class Model extends ObservableModel {
 
 
     this.state = {
-      userID: "-LevyD6ImWkKD6yALlcs",
       eventID: "-LfJzJAnjczbdDpQJAxs",
       currentEventObject: null,  //current event object
       currEvent: null,
@@ -31,12 +30,36 @@ class Model extends ObservableModel {
     this.addEventToUser = this.addEventToUser.bind(this);
   }
 
-  getUserID() {
-    return this.state.userID;
+  //returns true if authentication is successful
+  authenticateUser(username, psw, model) {
+
+    const usersRef = firebase.database().ref('users');
+    // Attach an asynchronous callback to read the data at our posts reference
+    let userID = null;
+
+    usersRef.on("value", function(snapshot) {
+
+      let userlist = snapshot.val();
+      for(let user in userlist) {
+        userID = user;
+        //console.log("this userID is: " + user + " name: " + userlist[user].username + " psw: " + userlist[user].password)
+        if(userlist[user].username === username && userlist[user].password === psw) {
+          model._userID = userID
+          model._userAuthenticated = true;
+          model.notifyObservers();
+        }
+      }
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
   }
 
-  setUserID(uID) {
-    this.state.userID = uID;
+  getAuthStatus() {
+    return this._userAuthenticated;
+  }
+
+  getUserID() {
+    return this._userID;
   }
 
   getEventID() {
@@ -91,19 +114,6 @@ class Model extends ObservableModel {
     return this._PHOTO_VIEW_PICTURE;
   }
 
-
-  /*
-  //gets all the events from the database
-  getAllEvents() {
-    var eventsRef = firebase.database.ref('events/');
-    var eventList;
-    eventsRef.orderByValue().on("startTime", function(snapshot) {
-      snapshot.forEach(function(data) {
-        console.log("The data key:" + data.key + " value: " + data.val());
-        eventList.push(data.val())
-      })
-  */
-
   //must be called if you enter an event through "AttendEvent"
   getCurrentEventObject() {
     const eventsRef = firebase.database().ref('events/' + this.state.currentEventID);
@@ -121,7 +131,7 @@ class Model extends ObservableModel {
 
     this.state.currentEventObject["latitude"] = pos.coords.latitude;
     this.state.currentEventObject["longitude"] = pos.coords.longitude;
-    this.state.currentEventObject["admin"] = this.state.userID;
+    this.state.currentEventObject["admin"] = this._userID;
 
     var newEventRef = eventsRef.push(this.state.currentEventObject);
     var eventID = newEventRef.key;
@@ -150,11 +160,10 @@ class Model extends ObservableModel {
   }
 
   addEventToUser = (eventID) => {
-    var userRef = firebase.database().ref('users/' + this.state.userID);
+    var userRef = firebase.database().ref('users/' + this._userID);
     userRef.child("attendedEvents").child(eventID).set(this.state.eventName);
 
     this.state.eventID =  eventID
-
   }
 
   attendEvent = (eventID, eventName) => {

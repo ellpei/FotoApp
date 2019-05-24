@@ -45,3 +45,11 @@ input {
   font-size: 16px;
   border-bottom: 1.5px solid white;
 }
+
+input #submit-btn .btn {
+  border: none;
+}
+
+a {
+  height: 30px;
+}

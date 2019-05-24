@@ -11,15 +11,15 @@ class Home extends Component {
         <NavBar title="Home"></NavBar>
         <br/>
         <br/>
-        <div class="button-container">
+        <div className="button-container">
           <Link to="/CreateEvent">
-            <button class="btn-rounded">Create Event</button>
+            <button className="btn-rounded">Create Event</button>
           </Link>
           <Link to="/AttendEvent">
-            <button class="btn-rounded">Attend Event</button>
+            <button className="btn-rounded">Attend Event</button>
           </Link>
           <Link to="/PastEvents">
-            <button class="btn-rounded">Past Events</button>
+            <button className="btn-rounded">Past Events</button>
           </Link>
         </div>
       </div>
