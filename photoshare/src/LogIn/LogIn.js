@@ -84,7 +84,7 @@ class LogIn extends Component {
           <form onSubmit={this.handleSubmit}>
           <input name="username" type="text" placeholder= "Username" value={this.state.username} onChange={this.handleChange} required/>
           <input name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
-          {this.state.submitted === true && this.state.tried === true ? <p>Invalid username or password. Please try again.</p> : null }
+          {this.state.tried === true && this.state.authenticated === false ? <p>Invalid username or password. Please try again.</p> : null }
 
           <div id="submit-container">
             {this.state.authenticated === true ? <Redirect to="Home"/> : null}
