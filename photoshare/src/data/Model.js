@@ -12,6 +12,8 @@ class Model extends ObservableModel {
     this._EVENTNAMES = null;
     this._KEYS = null;
     
+
+    this._PHOTO_VIEW_PICTURE_DELETED = false;
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
     this._CURRENT_EVENT_NAME = null;
@@ -21,9 +23,12 @@ class Model extends ObservableModel {
     this._CURRENT_EVENT_START_DATE = null;
     this._CURRENT_EVENT_START_TIME = null;
     this._PHOTO_VIEW_PICTURE = null;
+    this._PHOTO_VIEW_PICTURE_KEY = null;
     this._PHOTO_VIEW_TAKEN_BY = null;
     this._CURRENT_EVENT_OBJECT = null;
     
+    this._PAST_EVENT_KEY = null;
+
     this.addEventToUser = this.addEventToUser.bind(this);
   }
 
@@ -132,6 +137,22 @@ class Model extends ObservableModel {
 
   getCurrentEventStartTime(){
     return this._CURRENT_EVENT_START_TIME;
+  }
+
+  getPhotoViewPictureDeleted(){
+    return this._PHOTO_VIEW_PICTURE_DELETED;
+  }
+
+  setPhotoViewPictureDeleted(value){
+    this._PHOTO_VIEW_PICTURE_DELETED = value;
+  }
+
+  getEventKey(){
+    return this._PAST_EVENT_KEY;
+  }
+
+  setEventKey(eventKey){
+    this._PAST_EVENT_KEY = eventKey;
   }
 
   //must be called if you enter an event through "AttendEvent"
@@ -251,6 +272,19 @@ class Model extends ObservableModel {
     //get event radius
   }
 
+  deletePhoto(){
+    var model = this;
+    firebase.database().ref("events/" + this._CURRENT_EVENT_KEY).once("value").then(function(data){      
+      for(var pic in data.child("pictures").val()){
+        if(data.child("pictures").child(pic).val() === model._PHOTO_VIEW_PICTURE_KEY){
+          firebase.database().ref("events/" + model._CURRENT_EVENT_KEY + "/pictures").child(pic).remove();
+          model._PHOTO_VIEW_PICTURE_DELETED = true;
+          model.notifyObservers();
+        }
+      }
+    })
+  }
+
   uploadPhoto(item) {
     this.authenticateLocation(item, this.storePhoto, this);
   }
@@ -281,9 +315,11 @@ class Model extends ObservableModel {
   }
 
   getOnePicture(model, pictureKey){
-
+    this._PHOTO_VIEW_PICTURE_KEY = pictureKey;
     var userID = pictureKey.split("###")[0]
+    
 
+    
     const ref1 = firebase.storage().ref(model._CURRENT_EVENT_KEY + "/" + pictureKey);
     const ref2 = firebase.database().ref("users/" + userID);
 
@@ -291,7 +327,6 @@ class Model extends ObservableModel {
 
     var promises = [];
 
-    console.log(model._CURRENT_EVENT_KEY);
     promises.push(ref1.getDownloadURL());
     promises.push(ref2.once("value"));
     
@@ -306,6 +341,7 @@ class Model extends ObservableModel {
     var promises = [];
     var pictures_URL = [];
     var pictures_Name = [];
+    var picture_KEYS = [];
     var eventName = null;
     var promises3 = [];
     model._CURRENT_EVENT_KEY = eventKey;
@@ -318,6 +354,7 @@ class Model extends ObservableModel {
       model._CURRENT_EVENT_START_TIME = data[0].val().startTime;
 
       for(var pic in data[0].child("pictures").val()){
+        picture_KEYS.push(pic);    
         pictures_Name.push(data[0].child("pictures").child(pic).val());
         const ref = firebase.storage().ref(eventKey + "/");
         var refPic = ref.child(data[0].child("pictures").child(pic).val());
@@ -331,6 +368,7 @@ class Model extends ObservableModel {
         }
         model._EVENT_PICTURE_URL = pictures_URL;
         model._EVENT_PICTURE_NAME = pictures_Name;
+        model._EVENT_PICTURE_KEYS = picture_KEYS;
 
         model.notifyObservers();
 
