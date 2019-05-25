@@ -17,3 +17,33 @@
 .horizontal-line {
   width: 100%;
 }
+
+#modal-contents {
+  background-color: #FFFFFF;
+  height: 100%;
+  color: #818181;
+  padding: 20px;
+  text-align: center;
+  opacity: 0.9;
+  border-radius: 30px;
+}
+
+#modal-contents ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #818181;
+  opacity: 1; /* Firefox */
+}
+
+#modal-contents input {
+  color: #818181;
+  background: transparent;
+  border-style: none;
+  width: 90%;
+  padding: 10px 5px 10px 5px;
+  font-family: 'Montserrat' sans-serif;
+  font-size: 16px;
+  border-bottom: 1.5px solid grey;
+}
+
+#modal-contents button {
+  color: #818181;
+}
