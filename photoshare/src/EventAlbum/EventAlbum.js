@@ -50,13 +50,16 @@ class EventAlbum extends Component {
     //}
   }
 
-
   getPictures(){
+    var eventKey = window.location.href.split("/");
+
+    eventKey = eventKey[eventKey.length - 1];
+    modelInstance.setEventKey(eventKey);
+
     let eventID = window.location.href.split("/");
     console.log(decodeURIComponent(eventID[4]));
     modelInstance.generatePictures(modelInstance, decodeURIComponent(eventID[4]));
   }
-
 
   render() {
     let pictures = [];
@@ -80,7 +83,6 @@ class EventAlbum extends Component {
             </div>
 
         for(var i = 0 ; i < this.state.pictures.length ; i++){
-          //console.log(this.state.pictures[i]);
           pictures.push(
             <div key={this.state.pictures[i]} className="col-sm-4">
               <Link to={"/PhotoView/" + this.state.picture_names[i]}>
