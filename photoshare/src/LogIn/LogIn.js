@@ -82,7 +82,7 @@ class LogIn extends Component {
           {this.state.tried === true && this.state.authenticated === false ? <p>Invalid username or password. Please try again.</p> : null }
 
           <div id="submit-container">
-            {this.state.authenticated === true ? <Redirect to="Home"/> : null}
+            {/*this.state.authenticated === true ? <Redirect to="Home"/> : null*/}
               <button type="submit" className="btn">Log In</button>
           </div>
         </form>
