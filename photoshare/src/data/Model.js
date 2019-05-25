@@ -265,7 +265,7 @@ class Model extends ObservableModel {
 
   /*Called before uploading photo. The user must be within the event radius*/
   authenticateLocation(item, _callback, model) {
-    const eventsRef = firebase.database().ref("events/" + this.state.currEventID);
+    const eventsRef = firebase.database().ref("events/" + model._CURRENT_EVENT_ID);
     var eventLongitude;
     var eventLatitude;
     var userLongitude;
