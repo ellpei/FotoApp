@@ -35,13 +35,11 @@ class PhotoView extends Component {
 
     if(isDeleted){
       modelInstance.setPhotoViewPictureDeleted(false);
-      console.log("THIS PHOTO IS DELTETD REDIRECT!");
 
      // (modelInstance.getEventKey());
-      this.props.history.push("/EventAlbum/" + modelInstance.getEventKey());
+      this.props.history.replace("/EventAlbum/" + modelInstance.getEventKey());
 
     } else{
-      console.log("WHY??");
       var url = modelInstance.getPhotoViewPic();
       var takenBy = modelInstance.getPhotoViewTakenBy();
       var takenByID = window.location.href.split("/");
@@ -55,10 +53,7 @@ class PhotoView extends Component {
       var eventName = modelInstance.getCurrentEvent();
       var takenTime = new Date(parseInt(window.location.href.split("###")[1])).toLocaleString();
       var ableToDelete = false;
-  
-      console.log("modelInstance.getUserID(): " + modelInstance.getUserID());
       if (modelInstance.getUserID() === takenByID){
-        console.log("ableToDelete = True")
         ableToDelete = true;
       }
   
@@ -78,7 +73,6 @@ class PhotoView extends Component {
 
   getData(){
     let eventID = window.location.href.split("/");
-    // console.log(decodeURIComponent(eventID[4]));
     modelInstance.getOnePicture(modelInstance, decodeURIComponent(eventID[4]));
    }
 

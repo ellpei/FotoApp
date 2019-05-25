@@ -216,15 +216,15 @@ class Model extends ObservableModel {
   }
 
   authenticateEventPassword(eventID, password, model) {
-    console.log("auth event password")
+    //console.log("auth event password")
     var eventsRef = firebase.database().ref('events/' + eventID);
     this._EVENT_AUTH_TRIED = true;
 
     eventsRef.on("value", function(snapshot) {
       let eventobj = snapshot.val();
-      console.log(eventobj);
-      console.log("input password:" + password)
-      console.log(".password:" + eventobj.password)
+      //console.log(eventobj);
+      //console.log("input password:" + password)
+      //console.log(".password:" + eventobj.password)
       if(eventobj.password == password) {
         model._EVENT_AUTH_STATUS = true;
       }

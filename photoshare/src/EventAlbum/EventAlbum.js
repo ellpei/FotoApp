@@ -57,7 +57,6 @@ class EventAlbum extends Component {
     modelInstance.setEventKey(eventKey);
 
     let eventID = window.location.href.split("/");
-    console.log(decodeURIComponent(eventID[4]));
     modelInstance.generatePictures(modelInstance, decodeURIComponent(eventID[4]));
   }
 
