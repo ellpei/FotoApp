@@ -12,6 +12,8 @@ class Model extends ObservableModel {
     this._EVENTNAMES = null;
     this._KEYS = null;
 
+    this._EVENT_AUTH_STATUS = false;
+    this._EVENT_AUTH_TRIED = false;
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
     this._CURRENT_EVENT_NAME = null;
@@ -179,7 +181,35 @@ class Model extends ObservableModel {
     this._CURRENT_EVENT_ID =  eventID
   }
 
+  getEventAuthStatus() {
+    return this._EVENT_AUTH_STATUS;
+  }
+
+  getEventAuthTried() {
+    return this._EVENT_AUTH_TRIED;
+  }
+
+  authenticateEventPassword(eventID, password, model) {
+    console.log("auth event password")
+    var eventsRef = firebase.database().ref('events/' + eventID);
+    this._EVENT_AUTH_TRIED = true;
+
+    eventsRef.on("value", function(snapshot) {
+      let eventobj = snapshot.val();
+      console.log(eventobj);
+      console.log("input password:" + password)
+      console.log(".password:" + eventobj.password)
+      if(eventobj.password == password) {
+        model._EVENT_AUTH_STATUS = true;
+      }
+      model.notifyObservers();
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+  }
+
   attendEvent = (eventID, eventName, eventDescription, eventStartDate, eventStartTime) => {
+
     this._CURRENT_EVENT_ID = eventID;
     this._CURRENT_EVENT_NAME = eventName;
     this._CURRENT_EVENT_DESCRIPTION = eventDescription;
@@ -209,7 +239,7 @@ class Model extends ObservableModel {
 
   /*Called before uploading photo. The user must be within the event radius*/
   authenticateLocation(item, _callback, model) {
-    const eventsRef = firebase.database().ref("events/-LfJzJAnjczbdDpQJAxs"); // + this.state.currEventID);
+    const eventsRef = firebase.database().ref("events/" + this.state.currEventID);
     var eventLongitude;
     var eventLatitude;
     var userLongitude;
