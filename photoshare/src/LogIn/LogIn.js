@@ -62,11 +62,6 @@ class LogIn extends Component {
 
     modelInstance.authenticateUser(this.state.username, this.state.password, modelInstance);
 
-    this.setState({
-      submitted: true,
-      tried: true
-    });
-
     event.preventDefault();
   }
 
