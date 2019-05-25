@@ -23,7 +23,7 @@ class Model extends ObservableModel {
     this._PHOTO_VIEW_PICTURE = null;
     this._PHOTO_VIEW_TAKEN_BY = null;
     this._CURRENT_EVENT_OBJECT = null;
-      
+    
     this.addEventToUser = this.addEventToUser.bind(this);
   }
 
