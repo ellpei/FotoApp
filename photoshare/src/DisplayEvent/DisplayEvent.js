@@ -4,7 +4,6 @@ import "./DisplayEvent.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import modelInstance from '../data/Model.js';
 import * as firebase from 'firebase';
-//import PopUpForm from "../PopUpForm/PopUpForm.js";
 import Modal from 'react-awesome-modal';
 import { Redirect } from 'react-router';
 
