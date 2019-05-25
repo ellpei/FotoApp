@@ -11,7 +11,7 @@ class Model extends ObservableModel {
     this._URL = [];
     this._EVENTNAMES = null;
     this._KEYS = null;
-
+    
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
     this._CURRENT_EVENT_NAME = null;
@@ -23,7 +23,7 @@ class Model extends ObservableModel {
     this._PHOTO_VIEW_PICTURE = null;
     this._PHOTO_VIEW_TAKEN_BY = null;
     this._CURRENT_EVENT_OBJECT = null;
-
+      
     this.addEventToUser = this.addEventToUser.bind(this);
   }
 
