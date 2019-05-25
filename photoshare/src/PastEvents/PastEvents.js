@@ -59,7 +59,7 @@ class PastEvents extends Component {
           eventList.push(
             <div key={this.state.eventName[i]} className="col-sm-6">
               <Link to={"/EventAlbum/" + this.state.keys[i]}>
-                <img id="eventWrapper" src={this.state.URL[i]}></img>
+                <img id="eventWrapper" src={this.state.URL[i]} alt={"Image " + i}></img>
                 <p>{this.state.eventName[i]}</p>
               </Link>
             </div>
