@@ -75,9 +75,7 @@ class InsideEvent extends Component {
             centerMode = {true}
             showThumbs = {false}
             showStatus = {false}
-            showArrows = {false}
-
-            >
+            showArrows = {false}>
             {generateImageDiv}
           </Carousel>
         break;
@@ -89,7 +87,7 @@ class InsideEvent extends Component {
     return (
       <div className="InsideEvent">
         <NavBar title="InsideEvent" prev={this.props.history}></NavBar>
-        <h2>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h2>
+        {/* <h3>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h3> */}
         <h2>{modelInstance.getCurrentEvent()}</h2>
         <div id="carouselWrapper">
           {philippa}

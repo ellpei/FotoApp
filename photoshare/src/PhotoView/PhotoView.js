@@ -30,6 +30,7 @@ class PhotoView extends Component {
 
   update(){
     var url = modelInstance.getPhotoViewPic();
+    var takenBy = modelInstance.getPhotoViewTakenBy();
     var eventName = modelInstance.getCurrentEvent();
     var takenTime = new Date(parseInt(window.location.href.split("###")[1])).toLocaleString();
 
@@ -38,6 +39,7 @@ class PhotoView extends Component {
         URL: url,
         takenTime: takenTime,
         eventName: eventName,
+        takenBy: takenBy,
         status: "LOADED"
       })
     //}
@@ -64,7 +66,7 @@ class PhotoView extends Component {
       case "LOADED":
         pictureInfo = 
           <div>
-            <h4>Taken By: Admin</h4>
+            <h4>Taken By: {this.state.takenBy}</h4>
             <h4>Event: {this.state.eventName}</h4>
             <h4>Taken Time: {this.state.takenTime}</h4>
           </div>
