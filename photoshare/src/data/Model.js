@@ -182,6 +182,7 @@ class Model extends ObservableModel {
 
   //callback to store event. Receives currlocation
   storeEvent = (pos) => {
+    console.log("Is this even happening?")
     const eventsRef = firebase.database().ref('events');
     this._CURRENT_EVENT_OBJECT["latitude"] = pos.coords.latitude;
     this._CURRENT_EVENT_OBJECT["longitude"] = pos.coords.longitude;
@@ -201,6 +202,8 @@ class Model extends ObservableModel {
 
   createEvent(newEvent) {
     this._CURRENT_EVENT_OBJECT = newEvent;
+
+    console.log("newEvent.name " + newEvent.name);
 
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.storeEvent);
@@ -345,14 +348,21 @@ class Model extends ObservableModel {
   }
 
   storePhoto(item, model) {
+    console.log("storePhoto ID: " + model._CURRENT_EVENT_ID);
     var path = "/" + model._CURRENT_EVENT_ID;
+    console.log("storePhoto path: " + path);
     var storageRef = firebase.storage().ref(path);
+    console.log("storePhoto storageRef: " + storageRef);
     var folderRef = storageRef.child(model._userID + "###" + item.time);
+    console.log("storePhoto folderRef: " + folderRef);
     var image64 = item.image;
+    console.log("storePhoto image64: " + image64);
     var data = image64.replace(/^data:image\/\w+;base64,/, "");
+    console.log("storePhoto data: " + data);
     folderRef.putString(data, 'base64', {contentType: 'image/jpg'});
-
+    console.log("storePhoto folderRef: " + folderRef);
     const eventsRef = firebase.database().ref("events/" + model._CURRENT_EVENT_ID + "/pictures/");
+    console.log("storePhoto eventsRef: " + eventsRef);
     eventsRef.push(model._userID + "###" + item.time);
   }
 
@@ -434,17 +444,20 @@ class Model extends ObservableModel {
     var URL = [];
     var eventName = [];
     var keys = [];
-
+    console.log("itIsWorthTesting 1");
     promises.push(firebase.database().ref("users/" + this.getUserID() + "/attendedEvents").once("value"));
     Promise.all(promises).then(function(data){
+      console.log("itIsWorthTesting 2");
       var promises2 = [];
       for(var key in data[0].val()){
         eventName.push(data[0].child(key).node_.value_);
         keys.push(key);
+        console.log("key: " + key);
         promises2.push(firebase.database().ref("events/" + key + "/pictures").once("value"));
       }
 
       Promise.all(promises2).then(function(data2) {
+        console.log("itIsWorthTesting 3");
         var promises3 = [];
         for (var p = 0 ; p < data2.length ; p++){
           for (var pic in data2[p].val()){
@@ -456,9 +469,12 @@ class Model extends ObservableModel {
         }
 
         Promise.all(promises3).then(function(dataURL) {
+          console.log("itIsWorthTesting 4");
           for(var p = 0 ; p < dataURL.length ; p++){
-            model._URL.push(dataURL[p]);
+            URL.push(dataURL[p]);
           }
+          model._URL = URL;
+          console.log("itIsWorthTesting 5");
           model.notifyObservers();
         })
       });
@@ -495,22 +511,30 @@ class Model extends ObservableModel {
     });
   }
 
-  generatePictureCarousel(model){
+  generatePictureCarousel(model2){
+    var model = this;
+    console.log("genereatePictureCarousel model._CURRENT_EVENT_ID: " + model._CURRENT_EVENT_ID);
     firebase.database().ref("events/" + model._CURRENT_EVENT_ID).once("value").then(function(data) {
       let promises = [];
-      let pictures_URL = []
+      let pictures_URL = [];
 
       for(var pic in data.child("pictures").val()){
+        console.log("genereatePictureCarousel api call for each pic: " + pic);
         //pictures_Name.push(data[0].child("pictures").child(pic).val());
+        console.log(model._CURRENT_EVENT_ID);
         const ref = firebase.storage().ref(model._CURRENT_EVENT_ID + "/");
         var refPic = ref.child(data.child("pictures").child(pic).val());
         promises.push(refPic.getDownloadURL());
       }
-
-      Promise.all(promises).then(function(data){
-        for(var i = 0 ; i < data.length ; i++){
-          pictures_URL.push(data[i]);
+      console.log("Outside of the loop now");
+      //console.log(promises.length);
+      Promise.all(promises).then(function(data2){
+        console.log("data.length: " + data.length);
+        for(var i = 0 ; i < data2.length ; i++){
+          console.log(data2[i]);
+          pictures_URL.push(data2[i]);
         }
+        console.log("NOTIFY OBSER PLS");
         model._EVENT_PICTURE_URL = pictures_URL;
         model.notifyObservers();
       });

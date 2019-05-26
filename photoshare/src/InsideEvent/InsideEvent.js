@@ -31,6 +31,7 @@ class InsideEvent extends Component {
 
   update(){
     //console.log("IN UPDATE IN InsideEvent!");
+    console.log("InsideEvent Update!");
     var picturesList = modelInstance.getPictureURLs();
     //if(message = "URLSET"){
       this.setState({
@@ -41,6 +42,7 @@ class InsideEvent extends Component {
   }
 
   getData(){
+    console.log("InsideEvent - getData()");
     modelInstance.generatePictureCarousel(modelInstance);
   }
 
@@ -72,7 +74,7 @@ class InsideEvent extends Component {
             <h2>Start: {modelInstance.getCurrentEventStartDate()} {modelInstance.getCurrentEventStartTime()}</h2>
             <h2>Description: {modelInstance.getCurrentEventDescription()}</h2>
           </div>
-          
+
         currentEvent = modelInstance.getCurrentEvent()
 
         carousel =

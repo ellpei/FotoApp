@@ -43,6 +43,7 @@ class PastEvents extends Component {
   }
 
   getEvents(){
+    console.log("getEvents!");
     modelInstance.itIsWorthTesting(modelInstance);
   }
 
@@ -70,8 +71,6 @@ class PastEvents extends Component {
       default:
         break;
     }
-
-
 
     return (
       <div className="PastEvents">
