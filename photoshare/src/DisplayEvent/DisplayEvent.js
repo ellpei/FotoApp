@@ -26,7 +26,9 @@ class DisplayEvent extends Component {
   }
 
    update(model, message) {
-     if(message == "tryAttend"){
+    console.log("IN UPDATE IN DisplayEvent!");
+
+    if(message == "tryAttend"){
       console.log("wtf " + message);
       this.goToEvent();
     }

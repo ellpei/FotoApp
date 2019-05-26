@@ -30,6 +30,7 @@ class InsideEvent extends Component {
   }
 
   update(){
+    console.log("IN UPDATE IN InsideEvent!");
     var picturesList = modelInstance.getPictureURLs();
     //if(message = "URLSET"){
       this.setState({

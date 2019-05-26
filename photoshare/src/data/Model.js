@@ -229,10 +229,11 @@ class Model extends ObservableModel {
   }
 
   authenticateEventPassword(eventID, password, model, props) {
-    console.log("auth event password: " + eventID);
+    console.log("authenticateEventPassword 1");
     model._EVENT_AUTH_STATUS = true;
-    console.log("CORRECT PASS ID: " + eventID);
+    console.log("authenticateEventPassword 2");
     model._CURRENT_EVENT_ID = eventID;
+    console.log("authenticateEventPassword 3");
 
 //       const eventsRef = firebase.database().ref("events/" + eventID);
 //     eventsRef.once("value").then(function(snapshot) {
@@ -248,13 +249,17 @@ class Model extends ObservableModel {
 //       }
 //     });
 
-    firebase.database().ref("events/" + eventID).once("value").then(function(data){      
-      console.log("what the fuck");
-    })
-
-    //this.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
-
-    this.notifyObservers("tryAttend");
+    firebase.database().ref("events/" + eventID).once("value").then(function(data){
+      console.log("authenticateEventPassword 4");
+      console.log("Check Password");
+      let eventobj = data.val();
+      if(eventobj.password == password){
+        console.log("authenticateEventPassword 5");
+        alert("CORRECT PASSWORD" + eventobj.password);
+      }
+      console.log("authenticateEventPassword 6");
+      //this.notifyObservers("tryAttend");
+    });
   }
 
   attendEvent = (eventID, eventName, eventDescription, eventStartDate, eventStartTime) => {
