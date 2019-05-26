@@ -30,7 +30,7 @@ class InsideEvent extends Component {
   }
 
   update(){
-    console.log("IN UPDATE IN InsideEvent!");
+    //console.log("IN UPDATE IN InsideEvent!");
     var picturesList = modelInstance.getPictureURLs();
     //if(message = "URLSET"){
       this.setState({
@@ -45,12 +45,15 @@ class InsideEvent extends Component {
   }
 
   render() {
-    let philippa = null;
+    let carousel = null;
     let generateImageDiv = [];
+    let currentEvent = null;
+    let test = null;
 
     switch(this.state.status){
       case "LOADING":
-        philippa = <div>Loading...</div>
+        carousel = <div className="col-sm-12"><em>Loading...</em></div>
+        test = <div className="col-sm-12"><em>Loading...</em></div>
         break;
 
       case "LOADED":
@@ -64,7 +67,15 @@ class InsideEvent extends Component {
           )
         }
 
-        philippa =
+        test = 
+          <div>
+            <h2>Start: {modelInstance.getCurrentEventStartDate()} {modelInstance.getCurrentEventStartTime()}</h2>
+            <h2>Description: {modelInstance.getCurrentEventDescription()}</h2>
+          </div>
+          
+        currentEvent = modelInstance.getCurrentEvent()
+
+        carousel =
           <Carousel id= "carousel"
             autoPlay = {true}
             infiniteLoop = {true}
@@ -86,12 +97,15 @@ class InsideEvent extends Component {
         {/* <h3>{this.state.currentEventObject ? this.state.currentEventObject['name'] : null }</h3> */}
         <h2>{modelInstance.getCurrentEvent()}</h2>
         <div id="carouselWrapper">
-          {philippa}
+          {carousel}
         </div>
 
-        <h2>Start: {modelInstance.getCurrentEventStartDate()} {modelInstance.getCurrentEventStartTime()}</h2>
-        <h2>Description: {modelInstance.getCurrentEventDescription()}</h2>
-
+        <div>
+          {test}
+          {/* <h2>Start: {modelInstance.getCurrentEventStartDate()} {modelInstance.getCurrentEventStartTime()}</h2>
+          <h2>Description: {modelInstance.getCurrentEventDescription()}</h2> */}
+        </div>
+        
         <div id="cameraWrapper">
           <Link to="./Camera">
             <img src={camerashutter} alt="Upload" width="40px"/>

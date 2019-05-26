@@ -229,11 +229,11 @@ class Model extends ObservableModel {
   }
 
   authenticateEventPassword(eventID, password, model, props) {
-    console.log("authenticateEventPassword 1");
+    //console.log("authenticateEventPassword 1");
     model._EVENT_AUTH_STATUS = true;
-    console.log("authenticateEventPassword 2");
+    //console.log("authenticateEventPassword 2");
     model._CURRENT_EVENT_ID = eventID;
-    console.log("authenticateEventPassword 3");
+    //console.log("authenticateEventPassword 3");
 
 //       const eventsRef = firebase.database().ref("events/" + eventID);
 //     eventsRef.once("value").then(function(snapshot) {
@@ -248,30 +248,27 @@ class Model extends ObservableModel {
 //         model.notifyObservers("tryAttend");
 //       }
 //     });
-
+    //console.log("authenticateEventPassword 4: " + eventID);
     firebase.database().ref("events/" + eventID).once("value").then(function(data){
-      console.log("authenticateEventPassword 4");
-      console.log("Check Password");
+      //console.log("authenticateEventPassword 4");
+      //console.log("Check Password");
       let eventobj = data.val();
       if(eventobj.password == password){
-        console.log("authenticateEventPassword 5");
-        alert("CORRECT PASSWORD" + eventobj.password);
+        //console.log("authenticateEventPassword 5");
       }
-      console.log("authenticateEventPassword 6");
       //this.notifyObservers("tryAttend");
     });
   }
 
   attendEvent = (eventID, eventName, eventDescription, eventStartDate, eventStartTime) => {
-    console.log("eventID: " + eventID);
-    //this._CURRENT_EVENT_ID = eventID;
-    // this._CURRENT_EVENT_NAME = eventName;
-    // this._CURRENT_EVENT_DESCRIPTION = eventDescription;
-    // this._CURRENT_EVENT_START_DATE = eventStartDate;
-    // this._CURRENT_EVENT_START_TIME = eventStartTime;
-
-    // this.getCurrentEventObject();
-    // this.addEventToUser(eventID);
+    //console.log("eventID: " + eventID);
+    this._CURRENT_EVENT_ID = eventID;
+    this._CURRENT_EVENT_NAME = eventName;
+    this._CURRENT_EVENT_DESCRIPTION = eventDescription;
+    this._CURRENT_EVENT_START_DATE = eventStartDate;
+    this._CURRENT_EVENT_START_TIME = eventStartTime;
+    this.getCurrentEventObject();
+    this.addEventToUser(eventID);
   }
 
   createUser(userData) {
@@ -321,7 +318,7 @@ class Model extends ObservableModel {
         if(d < radius){
           _callback(item, model);
         } else{
-          console.log("THIS IS NOT OKAY");
+          alert("Sorry! You are not in range to upload photos to this event!");
         }
       });
     });
@@ -472,7 +469,7 @@ class Model extends ObservableModel {
   }
 
   getAttendEventsList(){
-    console.log("getAttendEventList() called in the model");
+    //console.log("getAttendEventList() called in the model");
     const eventsRef = firebase.database().ref('events');
 
     let model = this;
@@ -493,7 +490,7 @@ class Model extends ObservableModel {
         });
       }
       model._EVENT_LIST = newState;
-      console.log("getAttendEventList() is soon to call notifyObservers");
+      //console.log("getAttendEventList() is soon to call notifyObservers");
       model.notifyObservers("AttendEventList", "AttendEventList");
     });
   }

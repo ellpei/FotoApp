@@ -28,9 +28,8 @@ class AttendEvent extends Component {
   }
 
   update(model, message) {
-    console.log("IN UPDATE IN ATTEND EVENT MESSAGE: " + message);
     if(message == "AttendEventList"){
-      console.log("YES, INSIDE IF STATEMENT");
+      //console.log("YES, INSIDE IF STATEMENT");
       var eventList = modelInstance.getEventList();
       this.setState({
         events: eventList,
@@ -38,21 +37,14 @@ class AttendEvent extends Component {
       })
     }
     else if(message == "tryAttend"){
-      console.log("INSIDE ELSE IF STATEMENT IN ATTEND EVENT AFTER tryAttend");
-      //this.goToEvent();
-    }
-
-    else{
-      console.log("INSIDE ELSE");
+      this.goToEvent();
+    } else{
+      //console.log("INSIDE ELSE");
     }
   }
 
   getData(){
-    if(modelInstance._EVENT_AUTH_STATUS){
-      console.log("IT IS TRUE");
-    }else{
-      modelInstance.getAttendEventsList();
-    }
+    modelInstance.getAttendEventsList();
   }
 
   goToEvent = () => {

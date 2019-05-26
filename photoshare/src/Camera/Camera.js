@@ -26,10 +26,7 @@ class Camera extends Component {
 
   capture = () => {
     const imageSrc = this.webcam.getScreenshot();
-
     var time = new Date().getTime();
-    console.log(time);
-
     this.setState({
       imageData: imageSrc,
       image_time: time,

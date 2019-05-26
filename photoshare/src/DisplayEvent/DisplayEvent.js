@@ -25,44 +25,44 @@ class DisplayEvent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-   update(model, message) {
-    console.log("IN UPDATE IN DisplayEvent!");
+  //  update(model, message) {
+  //   console.log("IN UPDATE IN DisplayEvent!");
 
-    if(message == "tryAttend"){
-      console.log("wtf " + message);
-      this.goToEvent();
-    }
-  //   //   if(modelInstance.getEventAuthStatus() === true) {
-  //   //     modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
-  //   //     this.goToEvent();
-  //   //     modelInstance._EVENT_AUTH_STATUS = false;
-  //   //     modelInstance._EVENT_AUTH_TRIED = false;
+  //   if(message == "tryAttend"){
+  //     console.log("wtf " + message);
+  //     this.goToEvent();
+  //   }
+  // //   //   if(modelInstance.getEventAuthStatus() === true) {
+  // //   //     modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
+  // //   //     this.goToEvent();
+  // //   //     modelInstance._EVENT_AUTH_STATUS = false;
+  // //   //     modelInstance._EVENT_AUTH_TRIED = false;
 
-  //   //     this.setState({
-  //   //       authenticated: true
-  //   //     });
+  // //   //     this.setState({
+  // //   //       authenticated: true
+  // //   //     });
 
-  //   //   } else {
-  //   //     this.setState({
-  //   //       tried: true,
-  //   //       modalvisible: true
-  //   //     });
-  //   //   }
-  //   // }
-   }
+  // //   //   } else {
+  // //   //     this.setState({
+  // //   //       tried: true,
+  // //   //       modalvisible: true
+  // //   //     });
+  // //   //   }
+  // //   // }
+  //  }
 
-  componentDidMount() {
-    modelInstance.addObserver(this);
-  }
+  // componentDidMount() {
+  //   modelInstance.addObserver(this);
+  // }
 
   // test = () => {
   //   modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
   //   this.goToEvent();
   // }
 
-  componentWillUnmount() {
-    modelInstance.removeObserver(this);
-  }
+  // componentWillUnmount() {
+  //   modelInstance.removeObserver(this);
+  // }
 
   goToEvent = () => {
     this.props.history.push('/InsideEvent');
@@ -79,6 +79,8 @@ class DisplayEvent extends Component {
   //called when user presses submit after entering password
   handleSubmit(event) {
     modelInstance.authenticateEventPassword(this.props.id, this.state.password, modelInstance, this.props);
+    modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
+    this.goToEvent();
   }
 
   openModal = () => {
