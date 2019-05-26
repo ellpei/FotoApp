@@ -30,7 +30,6 @@ class InsideEvent extends Component {
   }
 
   update(){
-
     var picturesList = modelInstance.getPictureURLs();
     //if(message = "URLSET"){
       this.setState({
@@ -44,11 +43,7 @@ class InsideEvent extends Component {
     modelInstance.generatePictureCarousel(modelInstance);
   }
 
-
-
-
   render() {
-
     let philippa = null;
     let generateImageDiv = [];
 

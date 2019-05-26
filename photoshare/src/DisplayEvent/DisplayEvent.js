@@ -6,6 +6,7 @@ import modelInstance from '../data/Model.js';
 import * as firebase from 'firebase';
 import Modal from 'react-awesome-modal';
 import { Redirect } from 'react-router';
+import { Link } from "react-router-dom";
 
 
 class DisplayEvent extends Component {
@@ -24,29 +25,38 @@ class DisplayEvent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  update() {
-
-    if(modelInstance.getEventAuthStatus() === true) {
-      this.setState({
-        authenticated: true
-      });
-      console.log("auth success");
-      modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
+   update(model, message) {
+     if(message == "tryAttend"){
+      console.log("wtf " + message);
       this.goToEvent();
-      modelInstance._EVENT_AUTH_STATUS = false;
-      modelInstance._EVENT_AUTH_TRIED = false;
-    } else {
-      console.log("auth fail")
-      this.setState({
-        tried: true,
-        modalvisible: true
-      });
     }
-  }
+  //   //   if(modelInstance.getEventAuthStatus() === true) {
+  //   //     modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
+  //   //     this.goToEvent();
+  //   //     modelInstance._EVENT_AUTH_STATUS = false;
+  //   //     modelInstance._EVENT_AUTH_TRIED = false;
+
+  //   //     this.setState({
+  //   //       authenticated: true
+  //   //     });
+
+  //   //   } else {
+  //   //     this.setState({
+  //   //       tried: true,
+  //   //       modalvisible: true
+  //   //     });
+  //   //   }
+  //   // }
+   }
 
   componentDidMount() {
     modelInstance.addObserver(this);
   }
+
+  // test = () => {
+  //   modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
+  //   this.goToEvent();
+  // }
 
   componentWillUnmount() {
     modelInstance.removeObserver(this);
@@ -66,7 +76,7 @@ class DisplayEvent extends Component {
   }
   //called when user presses submit after entering password
   handleSubmit(event) {
-    modelInstance.authenticateEventPassword(this.props.id, this.state.password, modelInstance);
+    modelInstance.authenticateEventPassword(this.props.id, this.state.password, modelInstance, this.props);
   }
 
   openModal = () => {
@@ -82,7 +92,6 @@ class DisplayEvent extends Component {
   }
 
   render() {
-
     return (
       <div className="DisplayEvent">
         <div className="event-container">
@@ -100,17 +109,16 @@ class DisplayEvent extends Component {
 
             <div id="modal-contents">
             <br/>
-            <h4>This is a private event which requires a password.</h4>
-              <br/>
+              <h4>This is a private event which requires a password.</h4>
+            <br/>
               <form onSubmit={this.handleSubmit}>
-                <input name="password" type="text" placeholder="Password" value={this.state.password} onChange={this.handleChange} required autofocus/>
-                {this.state.tried === true && this.state.authenticated === false ? <p>Invalid password. Please try again.</p> : null }
+                <input name="password" type="text" placeholder="Password" value={this.state.password} onChange={this.handleChange} required autoFocus/>
                 <div id="submit-container">
-                  {/*this.state.authenticated === true ? <Redirect to="/InsideEvent"/> : null*/}
-                    <button type="submit" className="btn">Submit</button>
+                  <button type="submit" className="btn">Submit</button>
                 </div>
               </form>
             </div>
+
           </Modal>
           <div className="horizontal-line"></div>
         </div>

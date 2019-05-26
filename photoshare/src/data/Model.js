@@ -18,18 +18,22 @@ class Model extends ObservableModel {
     this._EVENT_AUTH_TRIED = false;
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
+    this._EVENT_LIST = null;
     this._CURRENT_EVENT_NAME = null;
     this._CURRENT_EVENT_ID = null;
     this._CURRENT_EVENT_KEY = null;
     this._CURRENT_EVENT_DESCRIPTION = null;
     this._CURRENT_EVENT_START_DATE = null;
     this._CURRENT_EVENT_START_TIME = null;
+
     this._PHOTO_VIEW_PICTURE = null;
     this._PHOTO_VIEW_PICTURE_KEY = null;
     this._PHOTO_VIEW_TAKEN_BY = null;
     this._CURRENT_EVENT_OBJECT = null;
 
     this._PAST_EVENT_KEY = null;
+
+    this._SUPER_TEST = false;
 
     this.addEventToUser = this.addEventToUser.bind(this);
   }
@@ -75,6 +79,14 @@ class Model extends ObservableModel {
 
   setEventID(eventID) {
     this._CURRENT_EVENT_ID = eventID;
+  }
+
+  getCurrentEventID(){
+    return this._CURRENT_EVENT_ID;
+  }
+
+  setCurrentEventID(eventID){
+  this._CURRENT_EVENT_ID = eventID;
   }
 
   getURL(){
@@ -125,9 +137,6 @@ class Model extends ObservableModel {
     return this._PHOTO_VIEW_TAKEN_BY;
   }
 
-  getCurrentEventID(){
-    return this._CURRENT_EVENT_ID;
-  }
 
   getCurrentEventDescription(){
     return this._CURRENT_EVENT_DESCRIPTION;
@@ -157,6 +166,10 @@ class Model extends ObservableModel {
     this._PAST_EVENT_KEY = eventKey;
   }
 
+  getEventList(){
+    return this._EVENT_LIST;
+  }
+
   //must be called if you enter an event through "AttendEvent"
   getCurrentEventObject() {
     const eventsRef = firebase.database().ref('events/' + this._CURRENT_EVENT_ID);
@@ -179,7 +192,7 @@ class Model extends ObservableModel {
 
     //add this new event ID to the past event list in this user
     this.addEventToUser(eventID);
-    this._CURRENT_EVENT_ID = eventID;
+    //this._CURRENT_EVENT_ID = eventID;
     //create an event folder in Firestore
     var storageRef = firebase.storage().ref();
     var newFolderRef = storageRef.child(eventID + '/images');   //the folder for each event is named after the eventID
@@ -204,7 +217,7 @@ class Model extends ObservableModel {
     var userRef = firebase.database().ref('users/' + this._userID);
     userRef.child("attendedEvents").child(eventID).set(this._CURRENT_EVENT_NAME);
 
-    this._CURRENT_EVENT_ID =  eventID
+    this._CURRENT_EVENT_ID = eventID
   }
 
   getEventAuthStatus() {
@@ -215,35 +228,45 @@ class Model extends ObservableModel {
     return this._EVENT_AUTH_TRIED;
   }
 
-  authenticateEventPassword(eventID, password, model) {
-    //console.log("auth event password")
-    var eventsRef = firebase.database().ref('events/' + eventID);
-    this._EVENT_AUTH_TRIED = true;
+  authenticateEventPassword(eventID, password, model, props) {
+    console.log("auth event password: " + eventID);
+    model._EVENT_AUTH_STATUS = true;
+    console.log("CORRECT PASS ID: " + eventID);
+    model._CURRENT_EVENT_ID = eventID;
 
-    eventsRef.on("value", function(snapshot) {
-      let eventobj = snapshot.val();
-      //console.log(eventobj);
-      //console.log("input password:" + password)
-      //console.log(".password:" + eventobj.password)
-      if(eventobj.password == password) {
-        model._EVENT_AUTH_STATUS = true;
-      }
-      model.notifyObservers();
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
+//       const eventsRef = firebase.database().ref("events/" + eventID);
+//     eventsRef.once("value").then(function(snapshot) {
+//       console.log("what the fuck");
+//       let eventobj = snapshot.val();
+//  //     if(eventobj.password == password) {
+//       if(true) {
+//         alert(eventobj.password);
+//         model._EVENT_AUTH_STATUS = true;
+//         console.log("CORRECT PASS ID: " + eventID);
+//         model._CURRENT_EVENT_ID = eventID;
+//         model.notifyObservers("tryAttend");
+//       }
+//     });
+
+    firebase.database().ref("events/" + eventID).once("value").then(function(data){      
+      console.log("what the fuck");
+    })
+
+    //this.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
+
+    this.notifyObservers("tryAttend");
   }
 
   attendEvent = (eventID, eventName, eventDescription, eventStartDate, eventStartTime) => {
+    console.log("eventID: " + eventID);
+    //this._CURRENT_EVENT_ID = eventID;
+    // this._CURRENT_EVENT_NAME = eventName;
+    // this._CURRENT_EVENT_DESCRIPTION = eventDescription;
+    // this._CURRENT_EVENT_START_DATE = eventStartDate;
+    // this._CURRENT_EVENT_START_TIME = eventStartTime;
 
-    this._CURRENT_EVENT_ID = eventID;
-    this._CURRENT_EVENT_NAME = eventName;
-    this._CURRENT_EVENT_DESCRIPTION = eventDescription;
-    this._CURRENT_EVENT_START_DATE = eventStartDate;
-    this._CURRENT_EVENT_START_TIME = eventStartTime;
-
-    this.getCurrentEventObject();
-    this.addEventToUser(eventID);
+    // this.getCurrentEventObject();
+    // this.addEventToUser(eventID);
   }
 
   createUser(userData) {
@@ -348,8 +371,6 @@ class Model extends ObservableModel {
     this._PHOTO_VIEW_PICTURE_KEY = pictureKey;
     var userID = pictureKey.split("###")[0]
     
-
-    
     const ref1 = firebase.storage().ref(model._CURRENT_EVENT_KEY + "/" + pictureKey);
     const ref2 = firebase.database().ref("users/" + userID);
 
@@ -445,6 +466,32 @@ class Model extends ObservableModel {
     });
   }
 
+  getAttendEventsList(){
+    console.log("getAttendEventList() called in the model");
+    const eventsRef = firebase.database().ref('events');
+
+    let model = this;
+    eventsRef.once("value").then(function(snapshot) {
+      let items = snapshot.val();
+      let newState = [];
+      for(let item in items) {
+        newState.push({
+          id: item,
+          admin: items[item].admin,
+          description: items[item].description,
+          latitude: items[item].latitude,
+          longitude: items[item].longitude,
+          name: items[item].name,
+          radius: items[item].radius,
+          startDate: items[item].startDate,
+          startTime: items[item].startTime
+        });
+      }
+      model._EVENT_LIST = newState;
+      console.log("getAttendEventList() is soon to call notifyObservers");
+      model.notifyObservers("AttendEventList", "AttendEventList");
+    });
+  }
 
   generatePictureCarousel(model){
     firebase.database().ref("events/" + model._CURRENT_EVENT_ID).once("value").then(function(data) {

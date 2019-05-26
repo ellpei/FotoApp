@@ -33,8 +33,8 @@ class Camera extends Component {
     this.setState({
       imageData: imageSrc,
       image_time: time,
-      image_by: "Jens",
-      image_event: modelInstance.getEventID(),
+      image_by: modelInstance.getUserID(),
+      image_event: modelInstance.getCurrentEventID(),
       cam_height: 0
     })
   };
