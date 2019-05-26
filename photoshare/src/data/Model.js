@@ -459,8 +459,9 @@ class Model extends ObservableModel {
 
         Promise.all(promises3).then(function(dataURL) {
           for(var p = 0 ; p < dataURL.length ; p++){
-            model._URL.push(dataURL[p]);
+            URL.push(dataURL[p]);
           }
+          model._URL = URL;
           model.notifyObservers();
         })
       });
