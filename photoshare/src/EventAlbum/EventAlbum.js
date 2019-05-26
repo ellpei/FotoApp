@@ -75,17 +75,17 @@ class EventAlbum extends Component {
 
       case "LOADED":
 
-          albumInfo = 
+          albumInfo =
             <div>
-              <h2>{this.state.eventName} Photo Album</h2>
-              <h3>Album will be deleted: {endDateString}</h3>
+              <h2>{this.state.eventName}</h2>
+
             </div>
 
         for(var i = 0 ; i < this.state.pictures.length ; i++){
           pictures.push(
             <div key={this.state.pictures[i]} className="col-sm-4">
               <Link to={"/PhotoView/" + this.state.picture_names[i]}>
-                <img id="eventWrapper" src={this.state.pictures[i]} alt={"Image " + i}></img>  
+                <img id="eventWrapper" src={this.state.pictures[i]} alt={"Image " + i}></img>
               </Link>
             </div>
           )
