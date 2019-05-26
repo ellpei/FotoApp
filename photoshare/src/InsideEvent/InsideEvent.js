@@ -13,8 +13,8 @@ class InsideEvent extends Component {
     super(props);
     this.state = {
       pictures: null,
-      currentEventID: modelInstance.getCurrentEventID(),
-      currentEventObject: modelInstance.getCurrentEventObject()
+      currentEventID: modelInstance.getCurrentEventID()
+      //currentEventObject: modelInstance.getCurrentEventObject()
     };
   }
 

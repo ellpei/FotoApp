@@ -18,16 +18,22 @@ class Model extends ObservableModel {
     this._EVENT_AUTH_TRIED = false;
     this._EVENT_PICTURE_URL = null;
     this._EVENT_PICTURE_NAME = null;
+
     this._CURRENT_EVENT_NAME = null;
     this._CURRENT_EVENT_ID = null;
     this._CURRENT_EVENT_KEY = null;
     this._CURRENT_EVENT_DESCRIPTION = null;
     this._CURRENT_EVENT_START_DATE = null;
     this._CURRENT_EVENT_START_TIME = null;
+
     this._PHOTO_VIEW_PICTURE = null;
     this._PHOTO_VIEW_PICTURE_KEY = null;
     this._PHOTO_VIEW_TAKEN_BY = null;
+
     this._CURRENT_EVENT_OBJECT = null;
+    this._CURRENT_EVENT_PASSWORD = null;
+    this._CURRENT_EVENT_RADIUS = null;
+
 
     this._PAST_EVENT_KEY = null;
 
@@ -170,11 +176,22 @@ class Model extends ObservableModel {
   //callback to store event. Receives currlocation
   storeEvent = (pos) => {
     const eventsRef = firebase.database().ref('events');
+    /*
     this._CURRENT_EVENT_OBJECT["latitude"] = pos.coords.latitude;
     this._CURRENT_EVENT_OBJECT["longitude"] = pos.coords.longitude;
     this._CURRENT_EVENT_OBJECT["admin"] = this._userID;
-
-    var newEventRef = eventsRef.push(this._CURRENT_EVENT_OBJECT);
+*/
+    let newEvent = {
+      name: this._CURRENT_EVENT_NAME,
+      startTime: this._CURRENT_EVENT_START_TIME,
+      radius: this._CURRENT_EVENT_RADIUS,
+      description: this._CURRENT_EVENT_DESCRIPTION,
+      password: this._CURRENT_EVENT_PASSWORD,
+      latitude: pos.coords.latitude,
+      longitude: pos.coords.longitude,
+      admin: this._userID
+    }
+    var newEventRef = eventsRef.push(newEvent);
     var eventID = newEventRef.key;
 
     //add this new event ID to the past event list in this user
@@ -188,6 +205,11 @@ class Model extends ObservableModel {
 
   createEvent(newEvent) {
     this._CURRENT_EVENT_OBJECT = newEvent;
+    this._CURRENT_EVENT_NAME = newEvent.name;
+    this._CURRENT_EVENT_START_TIME = newEvent.startTime;
+    this._CURRENT_EVENT_RADIUS = newEvent.radius;
+    this._CURRENT_EVENT_DESCRIPTION = newEvent.description;
+    this._CURRENT_EVENT_PASSWORD = newEvent.password;
 
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.storeEvent);
@@ -304,7 +326,7 @@ class Model extends ObservableModel {
 
   deletePhoto(){
     var model = this;
-    firebase.database().ref("events/" + this._CURRENT_EVENT_KEY).once("value").then(function(data){      
+    firebase.database().ref("events/" + this._CURRENT_EVENT_KEY).once("value").then(function(data){
       for(var pic in data.child("pictures").val()){
         if(data.child("pictures").child(pic).val() === model._PHOTO_VIEW_PICTURE_KEY){
           firebase.database().ref("events/" + model._CURRENT_EVENT_KEY + "/pictures").child(pic).remove();
@@ -347,9 +369,9 @@ class Model extends ObservableModel {
   getOnePicture(model, pictureKey){
     this._PHOTO_VIEW_PICTURE_KEY = pictureKey;
     var userID = pictureKey.split("###")[0]
-    
 
-    
+
+
     const ref1 = firebase.storage().ref(model._CURRENT_EVENT_KEY + "/" + pictureKey);
     const ref2 = firebase.database().ref("users/" + userID);
 
@@ -384,7 +406,7 @@ class Model extends ObservableModel {
       model._CURRENT_EVENT_START_TIME = data[0].val().startTime;
 
       for(var pic in data[0].child("pictures").val()){
-        picture_KEYS.push(pic);    
+        picture_KEYS.push(pic);
         pictures_Name.push(data[0].child("pictures").child(pic).val());
         const ref = firebase.storage().ref(eventKey + "/");
         var refPic = ref.child(data[0].child("pictures").child(pic).val());
