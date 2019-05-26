@@ -25,7 +25,7 @@ class DisplayEvent extends Component {
   }
 
   update() {
-
+    /*
     if(modelInstance.getEventAuthStatus() === true) {
       this.setState({
         authenticated: true
@@ -42,6 +42,7 @@ class DisplayEvent extends Component {
         modalvisible: true
       });
     }
+    */
   }
 
   componentDidMount() {
@@ -66,7 +67,9 @@ class DisplayEvent extends Component {
   }
   //called when user presses submit after entering password
   handleSubmit(event) {
-    modelInstance.authenticateEventPassword(this.props.id, this.state.password, modelInstance);
+    //modelInstance.authenticateEventPassword(this.props.id, this.state.password, modelInstance);
+    modelInstance.attendEvent(this.props.id, this.props.name, this.props.description, this.props.startDate, this.props.startTime)
+    this.goToEvent();
   }
 
   openModal = () => {
@@ -103,7 +106,7 @@ class DisplayEvent extends Component {
             <h4>This is a private event which requires a password.</h4>
               <br/>
               <form onSubmit={this.handleSubmit}>
-                <input name="password" type="text" placeholder="Password" value={this.state.password} onChange={this.handleChange} required autofocus/>
+                <input name="password" type="text" placeholder="Password" value={this.state.password} onChange={this.handleChange} required autoFocus/>
                 {this.state.tried === true && this.state.authenticated === false ? <p>Invalid password. Please try again.</p> : null }
                 <div id="submit-container">
                   {/*this.state.authenticated === true ? <Redirect to="/InsideEvent"/> : null*/}
