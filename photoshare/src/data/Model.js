@@ -184,6 +184,7 @@ class Model extends ObservableModel {
     let newEvent = {
       name: this._CURRENT_EVENT_NAME,
       startTime: this._CURRENT_EVENT_START_TIME,
+      startDate: this._CURRENT_EVENT_START_TIME,
       radius: this._CURRENT_EVENT_RADIUS,
       description: this._CURRENT_EVENT_DESCRIPTION,
       password: this._CURRENT_EVENT_PASSWORD,
@@ -207,6 +208,8 @@ class Model extends ObservableModel {
     this._CURRENT_EVENT_OBJECT = newEvent;
     this._CURRENT_EVENT_NAME = newEvent.name;
     this._CURRENT_EVENT_START_TIME = newEvent.startTime;
+    this._CURRENT_EVENT_START_DATE = newEvent.startDate;
+
     this._CURRENT_EVENT_RADIUS = newEvent.radius;
     this._CURRENT_EVENT_DESCRIPTION = newEvent.description;
     this._CURRENT_EVENT_PASSWORD = newEvent.password;
