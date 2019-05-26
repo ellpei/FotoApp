@@ -1,5 +1,17 @@
 # PhotoShare
-Event based photo sharing platform
+## What is it?
+PhotoShare is what we call an event based photo sharing platform. We want to make it easier to share photos with other people attending the same events as you. By directly uploading the photos we make sure that memories are captured right away and available to access later on. 
+
+## What makes it cool?
+The main goal of the app is the ability for users to create and attend so called events. Every event is connected to a location which is specified with geographic coordinates. The creator of the event will provide a radius for the event which will serve as a valid zone to upload photos. The project aims to create a photo sharing platform which only allows participants that is at the same event to upload and have access to the photos taken at that event for a limited duration of time. 
+
+## What features do we currently have?
+Currently the user can:
+* sign up and Login as an unique user
+* create an event
+* attend an event
+* upload photos to this event
+* ability to browse photos of previous attended events
 
 
 ## To run project
