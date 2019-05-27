@@ -15,6 +15,12 @@ Currently the user can:
 
 
 ## To run project
+
+### `npm install`
+### `npm start`
+
+## To build project
+
 ### `npm run build`
 
 ### `serve -s build`
