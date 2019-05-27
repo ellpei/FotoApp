@@ -13,6 +13,10 @@ Currently the user can:
 * upload photos to this event
 * ability to browse photos of previous attended events
 
+## Important things to know
+* Currently the app works best on Android and in the Chrome browser. 
+* The event password popup allows any password, we had the popup to demonstate how it would look like. Just enter anything atm :)
+
 
 ## To run project
 
